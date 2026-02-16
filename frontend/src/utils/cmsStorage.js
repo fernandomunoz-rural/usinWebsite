@@ -154,6 +154,10 @@ const DEFAULT_DATA = {
     mission: 'To mobilize and empower college students across Utah to serve their communities, develop leadership skills, and create lasting positive impact through coordinated volunteer initiatives that address real community needs.',
     story: 'Founded in 2026 at Snow College by a passionate group of students who saw the need for coordinated service across Utah\'s universities. With the support and guidance of UServeUtah, we launched UISN to create a statewide network where college students could collaborate on meaningful service projects. What started as a small group at Snow College has grown into a movement spanning 9+ universities, with over 1,000 active volunteers making a real difference in their communities.',
   },
+  settings: {
+    donateEnabled: false,
+    emailNotifications: 'utahintercollegiateservicenetw@gmail.com',
+  },
 };
 
 // Initialize storage with default data if empty
