@@ -28,7 +28,7 @@ const DEFAULT_DATA = {
     },
     {
       id: '2',
-      title: 'Host a UISN Service Night',
+      title: 'Host a UISN Service Event',
       description: 'Evening service-focused events including community projects, donation drives, and volunteering. Designed for students with busy schedules - 1–2 hours, low commitment, high impact.',
       frequency: 'Flexible',
       location: 'Your Community',
