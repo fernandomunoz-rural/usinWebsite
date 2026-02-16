@@ -7,25 +7,19 @@ export const Footer = () => {
       { label: 'Our Mission', href: '#about' },
       { label: 'Impact', href: '#impact' },
       { label: 'Team', href: '#about' },
-      { label: 'Annual Reports', href: '#' },
     ],
     programs: [
-      { label: 'Education Initiative', href: '#programs' },
-      { label: 'Environmental Action', href: '#programs' },
-      { label: 'Housing for All', href: '#programs' },
-      { label: 'Health & Wellness', href: '#programs' },
+      { label: 'Create a Chapter', href: '#programs' },
+      { label: 'Host Service Night', href: '#programs' },
+      { label: 'Join Leadership', href: '#programs' },
     ],
     getInvolved: [
       { label: 'Volunteer', href: '#get-involved' },
       { label: 'Partner', href: '#get-involved' },
-      { label: 'Donate', href: '#get-involved' },
-      { label: 'Events', href: '#' },
+      { label: 'Events', href: '#programs' },
     ],
     resources: [
-      { label: 'FAQ', href: '#' },
-      { label: 'Blog', href: '#' },
       { label: 'Contact', href: '#contact' },
-      { label: 'Privacy Policy', href: '#' },
     ],
   };
 
@@ -133,7 +127,7 @@ export const Footer = () => {
                 © {new Date().getFullYear()} Utah Intercollegiate Service Network. All rights reserved.
               </p>
               <p className="text-xs text-primary-foreground/60 mt-1">
-                501(c)(3) Non-Profit Organization
+                Pursuing 501(c)(3) Non-Profit Status
               </p>
             </div>
 
@@ -146,6 +140,8 @@ export const Footer = () => {
                     key={index}
                     href={social.href}
                     aria-label={social.label}
+                    target={social.href.startsWith('http') ? '_blank' : '_self'}
+                    rel="noopener noreferrer"
                     className="w-10 h-10 flex items-center justify-center rounded-full bg-primary-foreground/10 hover:bg-accent hover:text-accent-foreground transition-all duration-300"
                   >
                     <Icon size={18} />

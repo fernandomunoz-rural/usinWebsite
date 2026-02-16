@@ -6,31 +6,17 @@ export const Testimonials = () => {
   const testimonials = [
     {
       quote:
-        'UISN gave me the opportunity to make a real difference while connecting with amazing students from across Utah. The friendships and experiences I gained are invaluable.',
-      author: 'Sarah Martinez',
-      role: 'University of Utah',
-      program: 'Education Initiative',
+        'Being a UISN Ambassador at SUU has been transformational. I\'ve had the opportunity to lead service initiatives, connect with students across Utah, and make a real difference in our community. The network and support from UServeUtah have been incredible.',
+      author: 'Sofia Lopez',
+      role: 'SUU UISN Ambassador',
+      boldStatement: 'Leading Change Through Service',
     },
     {
       quote:
-        'Partnering with UISN has brought incredible energy and dedication to our community projects. The students are professional, passionate, and truly committed to service.',
-      author: 'Michael Chen',
-      role: 'Community Center Director',
-      program: 'Partner Organization',
-    },
-    {
-      quote:
-        'Through UISN, I discovered my passion for environmental conservation. The leadership skills I developed here have shaped my career path and personal values.',
-      author: 'Emily Johnson',
-      role: 'BYU',
-      program: 'Environmental Action',
-    },
-    {
-      quote:
-        'The impact we\'ve seen from UISN volunteers is remarkable. They bring innovation, enthusiasm, and genuine care to every project. We couldn\'t ask for better partners.',
-      author: 'David Rodriguez',
-      role: 'Habitat for Humanity',
-      program: 'Partner Organization',
+        'As an international volunteer from France, UISN welcomed me with open arms and gave me a chance to give back to the Utah community while building lifelong friendships. The service projects are meaningful and the impact is real.',
+      author: 'Kessy Gohin',
+      role: 'Volunteer from France',
+      boldStatement: 'Building Bridges Across Borders',
     },
   ];
 
@@ -51,12 +37,12 @@ export const Testimonials = () => {
         <div className="text-center mb-16">
           <h2 className="section-heading">What People Say</h2>
           <p className="section-subheading">
-            Hear from our volunteers and partners about their experiences with UISN.
+            Hear from our ambassadors and volunteers about their experiences with UISN.
           </p>
         </div>
 
         {/* Testimonials Grid */}
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {testimonials.map((testimonial, index) => (
             <Card
               key={index}
@@ -64,13 +50,15 @@ export const Testimonials = () => {
             >
               <CardContent className="p-8">
                 <Quote className="text-accent mb-4" size={32} />
+                <p className="text-lg font-bold text-secondary mb-4">
+                  "{testimonial.boldStatement}"
+                </p>
                 <p className="text-foreground/90 leading-relaxed mb-6 italic">
                   "{testimonial.quote}"
                 </p>
                 <div className="border-t border-border pt-4">
-                  <div className="font-semibold text-primary">{testimonial.author}</div>
-                  <div className="text-sm text-muted-foreground">{testimonial.role}</div>
-                  <div className="text-sm text-accent font-medium mt-1">{testimonial.program}</div>
+                  <div className="font-semibold text-primary text-lg">{testimonial.author}</div>
+                  <div className="text-sm text-accent font-medium mt-1">{testimonial.role}</div>
                 </div>
               </CardContent>
             </Card>
