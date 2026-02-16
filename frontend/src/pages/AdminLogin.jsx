@@ -39,8 +39,18 @@ export const AdminLogin = () => {
               className="h-20 w-auto mx-auto mb-4"
             />
           </div>
-          <CardTitle className="text-3xl font-bold text-primary">Admin Login</CardTitle>
+          <CardTitle className="text-3xl font-bold text-primary">UISN Council Login</CardTitle>
           <p className="text-muted-foreground">Access the Content Management System</p>
+          
+          {/* Restricted Access Notice */}
+          <div className="bg-accent/10 border border-accent/30 rounded-lg p-4 text-sm">
+            <p className="text-foreground font-semibold mb-1">⚠️ Restricted Access</p>
+            <p className="text-muted-foreground">
+              This portal is exclusively for UISN council members. If you are not part of the 
+              UISN council, you may not have access to this area. Please contact the organization 
+              administrators if you believe you should have access.
+            </p>
+          </div>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-6">

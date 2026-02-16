@@ -98,7 +98,7 @@ export const Navigation = () => {
                 variant="outline"
               >
                 <LogIn size={16} className="mr-2" />
-                Admin Sign In
+                Sign In
               </Button>
             )}
           </div>
@@ -149,7 +149,7 @@ export const Navigation = () => {
                 variant="outline"
               >
                 <LogIn size={16} className="mr-2" />
-                Admin Sign In
+                Sign In
               </Button>
             )}
           </div>

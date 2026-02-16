@@ -41,12 +41,19 @@ function LandingPage() {
 }
 
 function ProtectedRoute({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   useEffect(() => {
-    const auth = sessionStorage.getItem('uisn_admin_auth');
-    setIsAuthenticated(auth === 'true');
+    const checkAuth = () => {
+      const auth = sessionStorage.getItem('uisn_admin_auth');
+      setIsAuthenticated(auth === 'true');
+    };
+    checkAuth();
   }, []);
+
+  if (isAuthenticated === null) {
+    return <div>Loading...</div>;
+  }
 
   return isAuthenticated ? children : <Navigate to="/admin/login" replace />;
 }
