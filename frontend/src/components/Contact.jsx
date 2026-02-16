@@ -31,13 +31,13 @@ export const Contact = () => {
     {
       icon: Phone,
       title: 'Phone',
-      details: '(801) 555-UISN',
-      link: 'tel:8015558476',
+      details: '(435) 263-1140',
+      link: 'tel:4352631140',
     },
     {
       icon: MapPin,
       title: 'Address',
-      details: 'Salt Lake City, UT 84112',
+      details: 'Ephraim, UT 84627',
       link: null,
     },
   ];
@@ -58,10 +58,19 @@ export const Contact = () => {
           <div className="space-y-6">
             <div>
               <h3 className="text-2xl font-bold text-primary mb-4">Get in Touch</h3>
-              <p className="text-muted-foreground leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed mb-4">
                 Whether you're a student interested in volunteering, an organization looking to partner,
                 or just have questions, we're here to help.
               </p>
+              <div className="bg-muted rounded-lg p-4 border-l-4 border-accent">
+                <h4 className="font-semibold text-primary mb-2">About UISN</h4>
+                <p className="text-sm text-foreground/90 leading-relaxed">
+                  <strong>Established 2026</strong> - We are a brand new student-led organization, 
+                  founded as part of UServeUtah's efforts to expand service opportunities across the state. 
+                  Our mission is to empower college students to lead meaningful change in their communities 
+                  through coordinated volunteer initiatives and collaborative partnerships.
+                </p>
+              </div>
             </div>
 
             <div className="space-y-4">
@@ -76,7 +85,7 @@ export const Contact = () => {
                         </div>
                         <div>
                           <div className="font-semibold text-primary text-sm">{info.title}</div>
-                          <div className="text-muted-foreground text-sm">{info.details}</div>
+                          <div className="text-muted-foreground text-sm break-all">{info.details}</div>
                         </div>
                       </div>
                     </CardContent>
@@ -92,18 +101,6 @@ export const Contact = () => {
                 );
               })}
             </div>
-
-            {/* Office Hours */}
-            <Card className="bg-muted border-l-4 border-accent">
-              <CardContent className="p-4">
-                <h4 className="font-semibold text-primary mb-2">Office Hours</h4>
-                <div className="text-sm text-muted-foreground space-y-1">
-                  <div>Monday - Friday: 9:00 AM - 5:00 PM</div>
-                  <div>Saturday: 10:00 AM - 2:00 PM</div>
-                  <div>Sunday: Closed</div>
-                </div>
-              </CardContent>
-            </Card>
           </div>
 
           {/* Contact Form */}
