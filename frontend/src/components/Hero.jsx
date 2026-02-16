@@ -11,7 +11,7 @@ export const Hero = () => {
     <section className="relative pt-20 min-h-screen flex items-center bg-primary overflow-hidden">
       {/* Background Image with Overlay */}
       <div 
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 pointer-events-none"
         style={{
           backgroundImage: 'url(https://images.unsplash.com/photo-1560220604-1985ebfe28b1?w=1920&q=80)',
           backgroundSize: 'cover',
