@@ -1,60 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { TrendingUp, Users, Clock, Heart } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
+import { getStats, getImpactStories } from '../utils/cmsStorage';
 
 export const Impact = () => {
-  const stats = [
-    {
-      icon: Users,
-      value: '5,000+',
-      label: 'Active Volunteers',
-      description: 'Students making a difference',
-      color: 'text-secondary',
-      bgColor: 'bg-secondary/10',
-    },
-    {
-      icon: Clock,
-      value: '50,000+',
-      label: 'Service Hours',
-      description: 'Contributed annually',
-      color: 'text-accent',
-      bgColor: 'bg-accent/10',
-    },
-    {
-      icon: Heart,
-      value: '200+',
-      label: 'Community Partners',
-      description: 'Organizations served',
-      color: 'text-secondary',
-      bgColor: 'bg-secondary/10',
-    },
-    {
-      icon: TrendingUp,
-      value: '95%',
-      label: 'Satisfaction Rate',
-      description: 'From volunteers and partners',
-      color: 'text-accent',
-      bgColor: 'bg-accent/10',
-    },
-  ];
+  const [stats, setStats] = useState([]);
+  const [impactStories, setImpactStories] = useState([]);
 
-  const impacts = [
-    {
-      title: 'Environmental Conservation',
-      description: 'Over 10,000 trees planted and 500 miles of trails maintained across Utah.',
-      image: 'https://images.unsplash.com/photo-1758599667729-a6f0f8bd213b?w=800&q=80',
-    },
-    {
-      title: 'Education & Tutoring',
-      description: 'Supporting 1,200+ students with free tutoring and mentorship programs.',
-      image: 'https://images.unsplash.com/photo-1615856210162-9ae33390b1a2?w=800&q=80',
-    },
-    {
-      title: 'Community Building',
-      description: 'Building affordable housing and renovating community spaces for underserved areas.',
-      image: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=800&q=80',
-    },
-  ];
+  useEffect(() => {
+    setStats(getStats());
+    setImpactStories(getImpactStories().filter(s => s.active));
+  }, []);
+
+  // Icon mapping
+  const iconMap = {
+    Users,
+    Clock,
+    Heart,
+    TrendingUp,
+  };
 
   return (
     <section id="impact" className="py-20 bg-muted">
@@ -70,18 +34,18 @@ export const Impact = () => {
 
         {/* Stats Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {stats.map((stat, index) => {
-            const Icon = stat.icon;
+          {stats.map((stat) => {
+            const Icon = iconMap[stat.icon] || Heart;
             return (
               <Card
-                key={index}
+                key={stat.id}
                 className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
               >
                 <CardContent className="p-6 text-center">
-                  <div className={`inline-flex items-center justify-center w-16 h-16 ${stat.bgColor} rounded-2xl mb-4`}>
-                    <Icon className={stat.color} size={32} />
+                  <div className={`inline-flex items-center justify-center w-16 h-16 bg-${stat.color}/10 rounded-2xl mb-4`}>
+                    <Icon className={`text-${stat.color}`} size={32} />
                   </div>
-                  <div className={`text-4xl font-bold ${stat.color} mb-2`}>{stat.value}</div>
+                  <div className={`text-4xl font-bold text-${stat.color} mb-2`}>{stat.value}</div>
                   <div className="text-lg font-semibold text-primary mb-1">{stat.label}</div>
                   <div className="text-sm text-muted-foreground">{stat.description}</div>
                 </CardContent>
@@ -94,9 +58,9 @@ export const Impact = () => {
         <div>
           <h3 className="text-3xl font-bold text-primary text-center mb-10">Impact Stories</h3>
           <div className="grid md:grid-cols-3 gap-8">
-            {impacts.map((impact, index) => (
+            {impactStories.map((impact) => (
               <Card
-                key={index}
+                key={impact.id}
                 className="group overflow-hidden hover:shadow-xl transition-all duration-300"
               >
                 <div className="relative h-56 overflow-hidden">
