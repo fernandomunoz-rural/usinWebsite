@@ -1,47 +1,28 @@
-import React from 'react';
-import { GraduationCap, Trees, Home, Heart, Calendar, MapPin } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { GraduationCap, Trees, Home, Heart, Calendar, MapPin, Users, Briefcase } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
+import { getPrograms } from '../utils/cmsStorage';
 
 export const Programs = () => {
-  const programs = [
-    {
-      icon: GraduationCap,
-      title: 'Create a UISN Chapter at Your School',
-      description: 'Start an official UISN chapter on your campus. Access toolkits, branding, and support to lead service initiatives locally and connect with other universities in Utah.',
-      frequency: 'Year-round',
-      location: 'Your Campus',
-      impact: 'Statewide network',
-      color: 'secondary',
-    },
-    {
-      icon: Calendar,
-      title: 'Host a UISN Service Night',
-      description: 'Evening service-focused events including community projects, donation drives, and volunteering. Designed for students with busy schedules - 1–2 hours, low commitment, high impact.',
-      frequency: 'Flexible',
-      location: 'Your Community',
-      impact: 'Quick & impactful',
-      color: 'accent',
-    },
-    {
-      icon: Heart,
-      title: 'Join the Utah Intercollegiate Service Network',
-      description: 'Become part of a statewide student service coalition. Collaborate with students from other colleges, share resources, events, and impact reports.',
-      frequency: 'Ongoing',
-      location: 'Statewide',
-      impact: '15+ universities',
-      color: 'secondary',
-    },
-    {
-      icon: Trees,
-      title: 'Environmental Action',
-      description: 'Lead conservation projects including tree planting, trail maintenance, and community garden development.',
-      frequency: 'Monthly',
-      location: 'Statewide',
-      impact: '10,000+ trees planted',
-      color: 'accent',
-    },
-  ];
+  const [programs, setPrograms] = useState([]);
+
+  useEffect(() => {
+    // Load programs from CMS storage
+    const loadedPrograms = getPrograms().filter(p => p.active);
+    setPrograms(loadedPrograms);
+  }, []);
+
+  // Icon mapping
+  const iconMap = {
+    GraduationCap,
+    Trees,
+    Home,
+    Heart,
+    Calendar,
+    Users,
+    Briefcase,
+  };
 
   return (
     <section id="programs" className="py-20 bg-background">
