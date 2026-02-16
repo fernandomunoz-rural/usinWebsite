@@ -1,5 +1,5 @@
 import React from 'react';
-import { Facebook, Twitter, Instagram, Linkedin, Mail } from 'lucide-react';
+import { Instagram, Mail } from 'lucide-react';
 
 export const Footer = () => {
   const footerLinks = {
@@ -30,11 +30,8 @@ export const Footer = () => {
   };
 
   const socialLinks = [
-    { icon: Facebook, href: '#', label: 'Facebook' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
     { icon: Instagram, href: '#', label: 'Instagram' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-    { icon: Mail, href: 'mailto:info@uisn.org', label: 'Email' },
+    { icon: Mail, href: 'mailto:utahintercollegiateservicentw@gmail.com', label: 'Email' },
   ];
 
   const scrollToSection = (href) => {
@@ -126,10 +123,11 @@ export const Footer = () => {
             {/* Logo and Copyright */}
             <div className="text-center md:text-left">
               <div className="flex items-center justify-center md:justify-start space-x-2 mb-2">
-                <div className="text-2xl font-bold">
-                  <span className="text-secondary">UI</span>
-                  <span className="text-primary-foreground">SN</span>
-                </div>
+                <img 
+                  src="https://customer-assets.emergentagent.com/job_a8cb0463-4a45-46b3-a08a-68f031555cae/artifacts/grh33w4m_Screenshot%202026-02-09%20172851.png"
+                  alt="UISN Logo"
+                  className="h-10 w-auto"
+                />
               </div>
               <p className="text-sm text-primary-foreground/70">
                 © {new Date().getFullYear()} Utah Intercollegiate Service Network. All rights reserved.

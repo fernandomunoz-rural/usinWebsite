@@ -40,10 +40,11 @@ export const Navigation = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <div className="text-accent text-2xl font-bold">
-              <span className="text-secondary">UI</span>
-              <span className="text-primary-foreground">SN</span>
-            </div>
+            <img 
+              src="https://customer-assets.emergentagent.com/job_a8cb0463-4a45-46b3-a08a-68f031555cae/artifacts/grh33w4m_Screenshot%202026-02-09%20172851.png"
+              alt="UISN Logo"
+              className="h-12 w-auto"
+            />
             <div className="hidden sm:block text-primary-foreground text-sm font-medium">
               <div>Utah Intercollegiate</div>
               <div className="text-accent text-xs">Service Network</div>
