@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -9,6 +10,7 @@ import { Lock, User } from 'lucide-react';
 export const AdminLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -19,9 +21,9 @@ export const AdminLogin = () => {
       sessionStorage.setItem('uisn_admin_auth', 'true');
       toast.success('Login successful! Redirecting...');
       
-      // Use setTimeout to ensure toast is visible and use navigate
+      // Use React Router navigate
       setTimeout(() => {
-        window.location.replace('/admin/dashboard');
+        navigate('/admin/dashboard');
       }, 500);
     } else {
       toast.error('Invalid credentials. Try admin / uisn2026');
