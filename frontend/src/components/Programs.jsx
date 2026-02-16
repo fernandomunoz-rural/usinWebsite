@@ -110,7 +110,7 @@ export const Programs = () => {
               </div>
               <h4 className="text-xl font-semibold text-primary mb-2">Make an Impact</h4>
               <p className="text-muted-foreground">
-                Attend orientation and start making a difference in your community!
+                Host events, track service hours, create reports, and start making a difference!
               </p>
             </div>
           </div>
