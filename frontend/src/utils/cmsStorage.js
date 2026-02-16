@@ -166,6 +166,9 @@ const DEFAULT_DATA = {
 
 // Initialize storage with default data if empty
 export const initializeStorage = () => {
+  // Force clear old programs data to remove Environmental Action
+  localStorage.removeItem(STORAGE_KEYS.PROGRAMS);
+  
   Object.entries(DEFAULT_DATA).forEach(([key, value]) => {
     const storageKey = STORAGE_KEYS[key.toUpperCase()];
     if (!localStorage.getItem(storageKey)) {
