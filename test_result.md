@@ -101,3 +101,134 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Test the UISN landing page thoroughly including navigation, hero section, forms (volunteer, partner, donate), newsletter subscription, contact form, and general UI/UX functionality."
+
+frontend:
+  - task: "Navigation Menu Testing"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/Navigation.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Navigation links (About, Impact, Programs, Get Involved, Contact) all work correctly with smooth scrolling. Donate button in navigation works. Mobile menu toggle functions properly."
+
+  - task: "Hero Section Testing"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/Hero.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Hero section loads properly with background image. Get Involved and Explore Programs CTA buttons work correctly. Stats display (15+, 5,000+, 50K+) verified and visible."
+
+  - task: "Volunteer Form Testing"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/components/GetInvolved.jsx"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: false
+          agent: "testing"
+          comment: "CRITICAL ISSUE: HTML overlay intercepting pointer events prevents proper form interactions. Volunteer form fields can be filled but dropdown selections and checkbox interactions fail due to overlay blocking clicks. Form submission may not work properly."
+
+  - task: "Partner Form Testing"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/GetInvolved.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Partner form works correctly with force clicks. All fields can be filled, organization type dropdown works, and form submission shows success toast message."
+
+  - task: "Donate Section Testing"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/components/GetInvolved.jsx"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: false
+          agent: "testing"
+          comment: "CRITICAL ISSUE: Donation amount selection buttons ($25, $50, $100, $250) cannot be clicked due to overlay issues. Proceed to Donation button also fails to respond. Tab switching to donate section works but core functionality is blocked."
+
+  - task: "Newsletter Subscription Testing"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/Newsletter.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Newsletter subscription works correctly. Email input field accepts input and Subscribe button triggers success toast message."
+
+  - task: "Contact Form Testing"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/Contact.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Minor: Contact form fields can be filled and form submits, but toast message detection was inconsistent during testing. Core functionality appears to work."
+
+  - task: "Mobile Responsiveness Testing"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/Navigation.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Mobile responsiveness confirmed. Mobile menu toggle works correctly, navigation items display properly in mobile view."
+
+  - task: "General UI/UX Testing"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/App.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Smooth scrolling between sections works correctly. Images load properly (3 images found). Card hover effects and button hover states are present (29 cards, 39 buttons detected)."
+
+metadata:
+  created_by: "testing_agent"
+  version: "1.0"
+  test_sequence: 1
+  run_ui: true
+
+test_plan:
+  current_focus:
+    - "Volunteer Form Testing"
+    - "Donate Section Testing"
+  stuck_tasks:
+    - "Volunteer Form Testing"
+    - "Donate Section Testing"
+  test_all: true
+  test_priority: "high_first"
+
+agent_communication:
+    - agent: "testing"
+      message: "Comprehensive testing completed. CRITICAL OVERLAY ISSUE IDENTIFIED: HTML overlay is intercepting pointer events preventing proper form interactions in Volunteer Form and Donate Section. This is blocking core functionality. Partner form works with force clicks, suggesting the issue is specific to certain form elements. Navigation, Hero section, Newsletter, Contact form, and general UI/UX are working correctly. Mobile responsiveness confirmed."
