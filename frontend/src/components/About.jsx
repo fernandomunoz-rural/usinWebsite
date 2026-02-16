@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Target, Award, Users, Lightbulb } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
+import { getAboutContent } from '../utils/cmsStorage';
 
 export const About = () => {
+  const [aboutContent, setAboutContent] = useState({ mission: '', story: '' });
+
+  useEffect(() => {
+    setAboutContent(getAboutContent());
+  }, []);
+
   const values = [
     {
       icon: Target,
@@ -49,9 +56,7 @@ export const About = () => {
                 <div>
                   <h3 className="text-2xl font-bold text-primary mb-3">Our Mission</h3>
                   <p className="text-lg text-foreground/90 leading-relaxed">
-                    To mobilize and empower college students across Utah to serve their communities,
-                    develop leadership skills, and create lasting positive impact through coordinated
-                    volunteer initiatives that address real community needs.
+                    {aboutContent.mission || 'Loading...'}
                   </p>
                 </div>
               </div>
@@ -84,14 +89,8 @@ export const About = () => {
         <div className="mt-16 bg-muted rounded-2xl p-8 md:p-12">
           <div className="max-w-3xl mx-auto text-center">
             <h3 className="text-3xl font-bold text-primary mb-6">Our Story</h3>
-            <p className="text-lg text-foreground/90 leading-relaxed mb-4">
-              Founded in 2010, UISN began with a simple idea: what if college students across Utah could
-              unite their energy and passion for service to create transformative change?
-            </p>
-            <p className="text-lg text-foreground/90 leading-relaxed">
-              Today, we're proud to connect students from over 15 universities with meaningful volunteer
-              opportunities, providing a platform for collaboration, leadership development, and
-              community impact that extends far beyond graduation.
+            <p className="text-lg text-foreground/90 leading-relaxed whitespace-pre-line">
+              {aboutContent.story || 'Loading...'}
             </p>
           </div>
         </div>
