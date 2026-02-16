@@ -31,7 +31,7 @@ export const Footer = () => {
 
   const socialLinks = [
     { icon: Instagram, href: '#', label: 'Instagram' },
-    { icon: Mail, href: 'mailto:utahintercollegiateservicentw@gmail.com', label: 'Email' },
+    { icon: Mail, href: 'mailto:utahintercollegiateservicenetw@gmail.com', label: 'Email' },
   ];
 
   const scrollToSection = (href) => {
@@ -124,7 +124,7 @@ export const Footer = () => {
             <div className="text-center md:text-left">
               <div className="flex items-center justify-center md:justify-start space-x-2 mb-2">
                 <img 
-                  src="https://customer-assets.emergentagent.com/job_a8cb0463-4a45-46b3-a08a-68f031555cae/artifacts/grh33w4m_Screenshot%202026-02-09%20172851.png"
+                  src="https://customer-assets.emergentagent.com/job_a8cb0463-4a45-46b3-a08a-68f031555cae/artifacts/6ww6zppn_image.png"
                   alt="UISN Logo"
                   className="h-10 w-auto"
                 />

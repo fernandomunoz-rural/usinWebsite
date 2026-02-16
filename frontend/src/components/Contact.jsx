@@ -25,8 +25,8 @@ export const Contact = () => {
     {
       icon: Mail,
       title: 'Email',
-      details: 'utahintercollegiateservicentw@gmail.com',
-      link: 'mailto:utahintercollegiateservicentw@gmail.com',
+      details: 'utahintercollegiateservicenetw@gmail.com',
+      link: 'mailto:utahintercollegiateservicenetw@gmail.com',
     },
     {
       icon: Phone,
