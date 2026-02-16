@@ -158,7 +158,7 @@ frontend:
 
   - task: "Donate Section Testing"
     implemented: true
-    working: false
+    working: true
     file: "/app/frontend/src/components/GetInvolved.jsx"
     stuck_count: 1
     priority: "high"
@@ -167,6 +167,9 @@ frontend:
         - working: false
           agent: "testing"
           comment: "CRITICAL ISSUE: Donation amount selection buttons ($25, $50, $100, $250) cannot be clicked due to overlay issues. Proceed to Donation button also fails to respond. Tab switching to donate section works but core functionality is blocked."
+        - working: true
+          agent: "testing"
+          comment: "RESOLVED: All donate section functionality now working correctly. Tab switching to donate section works, all donation amount buttons ($25, $50, $100, $250) are clickable and show selection state, Custom Amount button works, and Proceed to Donation button triggers success toast message 'Thank you for your generous donation commitment! Redirecting to payment...'"
 
   - task: "Newsletter Subscription Testing"
     implemented: true
