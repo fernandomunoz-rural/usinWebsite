@@ -5,17 +5,15 @@ import { Quote } from 'lucide-react';
 export const Testimonials = () => {
   const testimonials = [
     {
-      quote:
-        'Being a UISN Ambassador at SUU has been transformational. I\'ve had the opportunity to lead service initiatives, connect with students across Utah, and make a real difference in our community. The network and support from UServeUtah have been incredible.',
+      quote: 'Being a UISN Ambassador at SUU has been transformational. Leading service initiatives and connecting with students across Utah while making real community impact.',
       author: 'Sofia Lopez',
       role: 'SUU UISN Ambassador',
       boldStatement: 'Leading Change Through Service',
     },
     {
-      quote:
-        'As an international volunteer from France, UISN welcomed me with open arms and gave me a chance to give back to the Utah community while building lifelong friendships. The service projects are meaningful and the impact is real.',
+      quote: 'UISN welcomed me and gave me a chance to give back to the community while building lifelong friendships. The service projects are meaningful and impactful.',
       author: 'Kessy Gohin',
-      role: 'Volunteer from France',
+      role: 'Snow College International Student & Volunteer',
       boldStatement: 'Building Bridges Across Borders',
     },
   ];

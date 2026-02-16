@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { GraduationCap, Trees, Home, Heart, Calendar, MapPin, Users, Briefcase } from 'lucide-react';
+import { GraduationCap, Trees, Home, Heart, Calendar, MapPin, Users, Briefcase, ExternalLink } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
+import { Button } from './ui/button';
 import { getPrograms } from '../utils/cmsStorage';
 
 export const Programs = () => {
@@ -40,6 +41,8 @@ export const Programs = () => {
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           {programs.map((program, index) => {
             const Icon = iconMap[program.icon] || Heart;
+            const isLeadership = program.title.toLowerCase().includes('leadership');
+            
             return (
               <Card
                 key={program.id || index}
@@ -47,11 +50,11 @@ export const Programs = () => {
               >
                 <CardHeader className={`bg-${program.color}/5 border-b-2 border-${program.color}/20`}>
                   <div className="flex items-start justify-between">
-                    <div className="flex items-start space-x-4">
+                    <div className="flex items-start space-x-4 flex-1">
                       <div className={`bg-${program.color}/10 p-3 rounded-xl group-hover:scale-110 transition-transform duration-300`}>
                         <Icon className={`text-${program.color}`} size={28} />
                       </div>
-                      <div>
+                      <div className="flex-1">
                         <CardTitle className="text-2xl text-primary mb-2">{program.title}</CardTitle>
                         <Badge variant="outline" className={`border-${program.color} text-${program.color}`}>
                           {program.impact}
@@ -62,7 +65,7 @@ export const Programs = () => {
                 </CardHeader>
                 <CardContent className="p-6">
                   <p className="text-muted-foreground leading-relaxed mb-6">{program.description}</p>
-                  <div className="space-y-2">
+                  <div className="space-y-2 mb-6">
                     <div className="flex items-center space-x-2 text-sm">
                       <Calendar className="text-muted-foreground" size={16} />
                       <span className="text-foreground">
@@ -76,6 +79,16 @@ export const Programs = () => {
                       </span>
                     </div>
                   </div>
+                  
+                  {isLeadership && (
+                    <Button 
+                      className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+                      onClick={() => window.open('https://forms.google.com', '_blank')}
+                    >
+                      Apply for Leadership Role
+                      <ExternalLink className="ml-2" size={16} />
+                    </Button>
+                  )}
                 </CardContent>
               </Card>
             );
