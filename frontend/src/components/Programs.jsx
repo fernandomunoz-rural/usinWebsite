@@ -39,10 +39,10 @@ export const Programs = () => {
         {/* Programs Grid */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           {programs.map((program, index) => {
-            const Icon = program.icon;
+            const Icon = iconMap[program.icon] || Heart;
             return (
               <Card
-                key={index}
+                key={program.id || index}
                 className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
               >
                 <CardHeader className={`bg-${program.color}/5 border-b-2 border-${program.color}/20`}>
