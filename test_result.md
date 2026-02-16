@@ -182,6 +182,9 @@ frontend:
         - working: true
           agent: "testing"
           comment: "Newsletter subscription works correctly. Email input field accepts input and Subscribe button triggers success toast message."
+        - working: true
+          agent: "testing"
+          comment: "CONFIRMED: Newsletter subscription working correctly. Email input accepts input and Subscribe button triggers success toast message 'Thank you for subscribing! Check your email for confirmation.'"
 
   - task: "Contact Form Testing"
     implemented: true
