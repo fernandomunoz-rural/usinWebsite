@@ -19,9 +19,9 @@ export const AdminLogin = () => {
       sessionStorage.setItem('uisn_admin_auth', 'true');
       toast.success('Login successful! Redirecting...');
       
-      // Use window.location.href for better compatibility with deployed sites
+      // Redirect to homepage where admin panel will appear
       setTimeout(() => {
-        window.location.href = '/admin/dashboard';
+        window.location.href = '/';
       }, 1000);
     } else {
       toast.error('Invalid credentials. Try admin / uisn2026');
