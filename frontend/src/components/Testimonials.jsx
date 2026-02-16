@@ -38,7 +38,7 @@ export const Testimonials = () => {
     <section className="py-20 bg-muted relative overflow-hidden">
       {/* Background decoration */}
       <div
-        className="absolute inset-0 opacity-5"
+        className="absolute inset-0 opacity-5 pointer-events-none"
         style={{
           backgroundImage: 'url(https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=1920&q=80)',
           backgroundSize: 'cover',
