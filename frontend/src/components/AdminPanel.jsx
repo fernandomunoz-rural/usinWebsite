@@ -19,7 +19,7 @@ export const AdminPanel = ({ onLogout }) => {
       {!isExpanded && (
         <button
           onClick={() => setIsExpanded(true)}
-          className="fixed bottom-6 right-6 z-50 bg-accent hover:bg-accent/90 text-accent-foreground p-4 rounded-full shadow-2xl hover:shadow-xl transition-all duration-300 hover:scale-110"
+          className="fixed bottom-6 right-6 z-[9999] bg-accent hover:bg-accent/90 text-accent-foreground p-4 rounded-full shadow-2xl hover:shadow-xl transition-all duration-300 hover:scale-110"
           title="Open Admin Panel"
         >
           <LayoutDashboard size={24} />
@@ -28,7 +28,7 @@ export const AdminPanel = ({ onLogout }) => {
 
       {/* Admin Panel Overlay */}
       {isExpanded && (
-        <div className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm overflow-y-auto">
+        <div className="fixed inset-0 z-[9999] bg-background/95 backdrop-blur-sm overflow-y-auto">
           <div className="min-h-screen p-4">
             {/* Header */}
             <div className="max-w-7xl mx-auto mb-6">
