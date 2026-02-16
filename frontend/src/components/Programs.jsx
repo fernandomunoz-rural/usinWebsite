@@ -80,12 +80,20 @@ export const Programs = () => {
                     </div>
                   </div>
                   
-                  {isLeadership && (
+                  {isLeadership ? (
                     <Button 
                       className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
-                      onClick={() => window.open('https://forms.google.com', '_blank')}
+                      onClick={() => window.location.href = `/program/${program.slug || program.id}`}
                     >
                       Apply for Leadership Role
+                      <ExternalLink className="ml-2" size={16} />
+                    </Button>
+                  ) : (
+                    <Button 
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                      onClick={() => window.location.href = `/program/${program.slug || program.id}`}
+                    >
+                      Learn More & Apply
                       <ExternalLink className="ml-2" size={16} />
                     </Button>
                   )}
