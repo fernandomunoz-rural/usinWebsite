@@ -6,6 +6,9 @@ const STORAGE_KEYS = {
   EVENTS: 'uisn_events',
   ANNOUNCEMENTS: 'uisn_announcements',
   OPPORTUNITIES: 'uisn_opportunities',
+  STATS: 'uisn_stats',
+  IMPACT_STORIES: 'uisn_impact_stories',
+  ABOUT_CONTENT: 'uisn_about_content',
 };
 
 // Initialize default data
@@ -39,7 +42,7 @@ const DEFAULT_DATA = {
       description: 'Become part of a statewide student service coalition. Collaborate with students from other colleges, share resources, events, and impact reports.',
       frequency: 'Ongoing',
       location: 'Statewide',
-      impact: '15+ universities',
+      impact: '9+ universities',
       icon: 'Heart',
       color: 'secondary',
       active: true,
@@ -50,7 +53,7 @@ const DEFAULT_DATA = {
       description: 'Lead conservation projects including tree planting, trail maintenance, and community garden development.',
       frequency: 'Monthly',
       location: 'Statewide',
-      impact: '10,000+ trees planted',
+      impact: 'Growing impact',
       icon: 'Trees',
       color: 'accent',
       active: true,
@@ -89,6 +92,67 @@ const DEFAULT_DATA = {
       active: true,
     },
   ],
+  stats: [
+    {
+      id: '1',
+      label: 'Active Volunteers',
+      value: '1,000+',
+      description: 'Students making a difference',
+      icon: 'Users',
+      color: 'secondary',
+    },
+    {
+      id: '2',
+      label: 'Service Hours',
+      value: '5,000+',
+      description: 'Contributed since 2026',
+      icon: 'Clock',
+      color: 'accent',
+    },
+    {
+      id: '3',
+      label: 'Community Partners',
+      value: '5',
+      description: 'Organizations served',
+      icon: 'Heart',
+      color: 'secondary',
+    },
+    {
+      id: '4',
+      label: 'Partner Universities',
+      value: '9+',
+      description: 'Colleges across Utah',
+      icon: 'TrendingUp',
+      color: 'accent',
+    },
+  ],
+  impactStories: [
+    {
+      id: '1',
+      title: 'Building Community Together',
+      description: 'In our first year, UISN volunteers have contributed over 5,000 hours of service across Utah communities.',
+      image: 'https://images.unsplash.com/photo-1758599667729-a6f0f8bd213b?w=800&q=80',
+      active: true,
+    },
+    {
+      id: '2',
+      title: 'Growing Network',
+      description: 'Started at Snow College, we\'ve expanded to partner with 9 universities across Utah, creating a statewide movement.',
+      image: 'https://images.unsplash.com/photo-1615856210162-9ae33390b1a2?w=800&q=80',
+      active: true,
+    },
+    {
+      id: '3',
+      title: 'Student-Led Impact',
+      description: 'Over 1,000 student volunteers are actively participating in service projects, proving that young people can create lasting change.',
+      image: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=800&q=80',
+      active: true,
+    },
+  ],
+  aboutContent: {
+    mission: 'To mobilize and empower college students across Utah to serve their communities, develop leadership skills, and create lasting positive impact through coordinated volunteer initiatives that address real community needs.',
+    story: 'Founded in 2026 at Snow College by a passionate group of students who saw the need for coordinated service across Utah\'s universities. With the support and guidance of UServeUtah, we launched UISN to create a statewide network where college students could collaborate on meaningful service projects. What started as a small group at Snow College has grown into a movement spanning 9+ universities, with over 1,000 active volunteers making a real difference in their communities.',
+  },
 };
 
 // Initialize storage with default data if empty
@@ -244,4 +308,69 @@ export const updateOpportunity = (id, updates) => {
 export const deleteOpportunity = (id) => {
   const opportunities = getOpportunities().filter((o) => o.id !== id);
   saveOpportunities(opportunities);
+};
+
+// Stats
+export const getStats = () => {
+  const data = localStorage.getItem(STORAGE_KEYS.STATS);
+  return data ? JSON.parse(data) : DEFAULT_DATA.stats;
+};
+
+export const saveStats = (stats) => {
+  localStorage.setItem(STORAGE_KEYS.STATS, JSON.stringify(stats));
+};
+
+export const updateStat = (id, updates) => {
+  const stats = getStats();
+  const index = stats.findIndex((s) => s.id === id);
+  if (index !== -1) {
+    stats[index] = { ...stats[index], ...updates };
+    saveStats(stats);
+  }
+};
+
+// Impact Stories
+export const getImpactStories = () => {
+  const data = localStorage.getItem(STORAGE_KEYS.IMPACT_STORIES);
+  return data ? JSON.parse(data) : DEFAULT_DATA.impactStories;
+};
+
+export const saveImpactStories = (stories) => {
+  localStorage.setItem(STORAGE_KEYS.IMPACT_STORIES, JSON.stringify(stories));
+};
+
+export const addImpactStory = (story) => {
+  const stories = getImpactStories();
+  const newStory = {
+    ...story,
+    id: Date.now().toString(),
+    active: true,
+  };
+  stories.push(newStory);
+  saveImpactStories(stories);
+  return newStory;
+};
+
+export const updateImpactStory = (id, updates) => {
+  const stories = getImpactStories();
+  const index = stories.findIndex((s) => s.id === id);
+  if (index !== -1) {
+    stories[index] = { ...stories[index], ...updates };
+    saveImpactStories(stories);
+  }
+};
+
+export const deleteImpactStory = (id) => {
+  const stories = getImpactStories().filter((s) => s.id !== id);
+  saveImpactStories(stories);
+};
+
+// About Content
+export const getAboutContent = () => {
+  const data = localStorage.getItem(STORAGE_KEYS.ABOUT_CONTENT);
+  return data ? JSON.parse(data) : DEFAULT_DATA.aboutContent;
+};
+
+export const saveAboutContent = (content) => {
+  localStorage.setItem(STORAGE_KEYS.ABOUT_CONTENT, JSON.stringify(content));
 };
