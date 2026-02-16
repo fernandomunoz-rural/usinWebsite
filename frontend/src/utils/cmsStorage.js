@@ -25,6 +25,7 @@ const DEFAULT_DATA = {
       icon: 'GraduationCap',
       color: 'secondary',
       active: true,
+      slug: 'create-chapter',
     },
     {
       id: '2',
@@ -36,6 +37,7 @@ const DEFAULT_DATA = {
       icon: 'Calendar',
       color: 'accent',
       active: true,
+      slug: 'service-event',
     },
     {
       id: '3',
@@ -47,6 +49,7 @@ const DEFAULT_DATA = {
       icon: 'Heart',
       color: 'secondary',
       active: true,
+      slug: 'join-network',
     },
     {
       id: '4',
@@ -58,6 +61,7 @@ const DEFAULT_DATA = {
       icon: 'Users',
       color: 'accent',
       active: true,
+      slug: 'leadership',
     },
   ],
   events: [
