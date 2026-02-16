@@ -21,10 +21,10 @@ export const AdminLogin = () => {
       sessionStorage.setItem('uisn_admin_auth', 'true');
       toast.success('Login successful! Redirecting...');
       
-      // Use React Router navigate
+      // Use window.location.href for better compatibility with deployed sites
       setTimeout(() => {
-        navigate('/admin/dashboard');
-      }, 500);
+        window.location.href = '/admin/dashboard';
+      }, 1000);
     } else {
       toast.error('Invalid credentials. Try admin / uisn2026');
     }
