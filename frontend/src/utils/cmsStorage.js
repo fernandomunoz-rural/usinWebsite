@@ -375,3 +375,14 @@ export const getAboutContent = () => {
 export const saveAboutContent = (content) => {
   localStorage.setItem(STORAGE_KEYS.ABOUT_CONTENT, JSON.stringify(content));
 };
+
+// Settings
+export const getSettings = () => {
+  const data = localStorage.getItem(STORAGE_KEYS.SETTINGS);
+  return data ? JSON.parse(data) : DEFAULT_DATA.settings;
+};
+
+export const saveSettings = (settings) => {
+  localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
+};
+
