@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, LogIn, LayoutDashboard } from 'lucide-react';
 import { Button } from './ui/button';
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -12,6 +13,17 @@ export const Navigation = () => {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+    
+    // Check authentication status
+    const checkAuth = () => {
+      const auth = sessionStorage.getItem('uisn_admin_auth');
+      setIsAuthenticated(auth === 'true');
+    };
+    checkAuth();
+    
+    // Check auth status periodically
+    const interval = setInterval(checkAuth, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const navItems = [
@@ -68,6 +80,27 @@ export const Navigation = () => {
             >
               Donate
             </Button>
+            
+            {/* Admin Button - Changes based on auth status */}
+            {isAuthenticated ? (
+              <Button
+                onClick={() => window.location.href = '/admin/dashboard'}
+                className="ml-2 bg-accent hover:bg-accent/90 text-accent-foreground"
+                variant="default"
+              >
+                <LayoutDashboard size={16} className="mr-2" />
+                Dashboard
+              </Button>
+            ) : (
+              <Button
+                onClick={() => window.location.href = '/admin/login'}
+                className="ml-2 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+                variant="outline"
+              >
+                <LogIn size={16} className="mr-2" />
+                Admin Sign In
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -99,6 +132,26 @@ export const Navigation = () => {
             >
               Donate Now
             </Button>
+            
+            {/* Mobile Admin Button */}
+            {isAuthenticated ? (
+              <Button
+                onClick={() => window.location.href = '/admin/dashboard'}
+                className="w-full bg-accent hover:bg-accent/90 text-accent-foreground mt-2"
+              >
+                <LayoutDashboard size={16} className="mr-2" />
+                Dashboard
+              </Button>
+            ) : (
+              <Button
+                onClick={() => window.location.href = '/admin/login'}
+                className="w-full border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 mt-2"
+                variant="outline"
+              >
+                <LogIn size={16} className="mr-2" />
+                Admin Sign In
+              </Button>
+            )}
           </div>
         </div>
       )}

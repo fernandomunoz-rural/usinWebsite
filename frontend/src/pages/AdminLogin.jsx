@@ -17,8 +17,12 @@ export const AdminLogin = () => {
     // Default credentials: admin / uisn2026
     if (username === 'admin' && password === 'uisn2026') {
       sessionStorage.setItem('uisn_admin_auth', 'true');
-      toast.success('Login successful!');
-      window.location.href = '/admin/dashboard';
+      toast.success('Login successful! Redirecting...');
+      
+      // Use setTimeout to ensure toast is visible and use navigate
+      setTimeout(() => {
+        window.location.replace('/admin/dashboard');
+      }, 500);
     } else {
       toast.error('Invalid credentials. Try admin / uisn2026');
     }
