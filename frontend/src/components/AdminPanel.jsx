@@ -45,6 +45,17 @@ export const AdminPanel = ({ onLogout }) => {
                     <Button
                       variant="outline"
                       className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+                      onClick={() => {
+                        setIsExpanded(false);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        window.location.reload();
+                      }}
+                    >
+                      View Changes
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
                       onClick={onLogout}
                     >
                       Logout

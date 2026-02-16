@@ -15,6 +15,7 @@ import Newsletter from './components/Newsletter';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import AdminPanel from './components/AdminPanel';
+import Events from './components/Events';
 
 // Admin Pages
 import AdminLogin from './pages/AdminLogin';
@@ -50,6 +51,7 @@ function LandingPage() {
         <About />
         <Impact />
         <Programs />
+        <Events />
         <GetInvolved />
         <Testimonials />
         <Newsletter />
