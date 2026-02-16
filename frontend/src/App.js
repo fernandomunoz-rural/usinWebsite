@@ -14,14 +14,34 @@ import Testimonials from './components/Testimonials';
 import Newsletter from './components/Newsletter';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import AdminPanel from './components/AdminPanel';
 
 // Admin Pages
 import AdminLogin from './pages/AdminLogin';
-import AdminDashboard from './pages/AdminDashboard';
 
 import './App.css';
 
 function LandingPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = () => {
+      const auth = sessionStorage.getItem('uisn_admin_auth');
+      setIsAuthenticated(auth === 'true');
+    };
+    checkAuth();
+    
+    // Check auth status periodically
+    const interval = setInterval(checkAuth, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('uisn_admin_auth');
+    setIsAuthenticated(false);
+    window.location.reload();
+  };
+
   return (
     <div className="min-h-screen">
       <Navigation />
@@ -36,26 +56,11 @@ function LandingPage() {
         <Contact />
       </main>
       <Footer />
+      
+      {/* Admin Panel - Only shows when logged in */}
+      {isAuthenticated && <AdminPanel onLogout={handleLogout} />}
     </div>
   );
-}
-
-function ProtectedRoute({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
-
-  useEffect(() => {
-    const checkAuth = () => {
-      const auth = sessionStorage.getItem('uisn_admin_auth');
-      setIsAuthenticated(auth === 'true');
-    };
-    checkAuth();
-  }, []);
-
-  if (isAuthenticated === null) {
-    return <div>Loading...</div>;
-  }
-
-  return isAuthenticated ? children : <Navigate to="/admin/login" replace />;
 }
 
 export default function App() {
@@ -63,24 +68,11 @@ export default function App() {
     initializeStorage();
   }, []);
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('uisn_admin_auth');
-    window.location.href = '/admin/login';
-  };
-
   return (
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/admin/login" element={<AdminLogin />} />
-        <Route
-          path="/admin/dashboard"
-          element={
-            <ProtectedRoute>
-              <AdminDashboard onLogout={handleLogout} />
-            </ProtectedRoute>
-          }
-        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Toaster position="top-center" />
