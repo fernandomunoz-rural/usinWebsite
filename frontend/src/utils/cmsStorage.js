@@ -9,6 +9,7 @@ const STORAGE_KEYS = {
   STATS: 'uisn_stats',
   IMPACT_STORIES: 'uisn_impact_stories',
   ABOUT_CONTENT: 'uisn_about_content',
+  SETTINGS: 'uisn_settings',
 };
 
 // Initialize default data
