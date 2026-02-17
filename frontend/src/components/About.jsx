@@ -1,25 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Target, Award, Users, Lightbulb } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
-import { getAboutContent } from '../utils/cmsStorage';
+import { useCMS } from '../context/CMSContext';
 
 export const About = () => {
-  const [aboutContent, setAboutContent] = useState({ mission: '', story: '' });
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadContent = async () => {
-      try {
-        const content = await getAboutContent();
-        setAboutContent(content);
-      } catch (error) {
-        console.error('Failed to load about content:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadContent();
-  }, []);
+  const { about: aboutContent, loading } = useCMS();
 
   const values = [
     {
