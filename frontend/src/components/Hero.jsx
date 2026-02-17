@@ -26,9 +26,12 @@ export const Hero = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="space-y-8">
-            <div className="inline-flex items-center space-x-2 bg-accent/10 border border-accent/30 rounded-full px-4 py-2">
-              <Heart className="text-accent" size={20} fill="currentColor" />
-              <span className="text-accent font-medium">Empowering Students to Serve</span>
+            <div className="mb-2">
+              <img 
+                src="https://customer-assets.emergentagent.com/job_4f5d1fb5-0761-445e-af74-1ba7e066fe01/artifacts/pqnhsmwe_image.png"
+                alt="UISN - Utah Intercollegiate Service Network"
+                className="h-24 sm:h-28 lg:h-32 w-auto"
+              />
             </div>
             
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-primary-foreground leading-tight">
