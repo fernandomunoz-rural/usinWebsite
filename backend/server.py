@@ -12,40 +12,68 @@ from datetime import datetime, timezone
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import asyncio
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-# MongoDB connection - use SSL only for Atlas (mongodb+srv)
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# MongoDB connection - optimized for cold starts
 mongo_url = os.environ['MONGO_URL']
-if mongo_url.startswith('mongodb+srv'):
-    import certifi
-    import ssl
-    client = AsyncIOMotorClient(
-        mongo_url, 
-        tlsCAFile=certifi.where(),
-        tls=True,
-        tlsAllowInvalidCertificates=False,
-        maxPoolSize=10,
-        minPoolSize=1,
-        serverSelectionTimeoutMS=30000,
-        connectTimeoutMS=30000,
-        socketTimeoutMS=30000,
-        retryWrites=True,
-        w='majority'
-    )
-else:
-    client = AsyncIOMotorClient(
-        mongo_url,
-        maxPoolSize=10,
-        minPoolSize=1,
-        serverSelectionTimeoutMS=10000,
-        connectTimeoutMS=10000
-    )
-db = client[os.environ['DB_NAME']]
+client = None
+db = None
+
+def get_db():
+    global client, db
+    if client is None:
+        logger.info("Creating MongoDB connection...")
+        if mongo_url.startswith('mongodb+srv'):
+            import certifi
+            client = AsyncIOMotorClient(
+                mongo_url, 
+                tlsCAFile=certifi.where(),
+                maxPoolSize=5,
+                minPoolSize=1,
+                serverSelectionTimeoutMS=10000,
+                connectTimeoutMS=10000,
+                socketTimeoutMS=20000,
+                retryWrites=True,
+                w=1,  # Faster writes (don't wait for majority)
+                journal=False,  # Faster for non-critical data
+            )
+        else:
+            client = AsyncIOMotorClient(
+                mongo_url,
+                maxPoolSize=5,
+                minPoolSize=1,
+                serverSelectionTimeoutMS=5000,
+                connectTimeoutMS=5000
+            )
+        db = client[os.environ['DB_NAME']]
+        logger.info("MongoDB connection created")
+    return db
 
 app = FastAPI()
 api_router = APIRouter(prefix="/api")
+
+# Health check endpoint - no DB required
+@api_router.get("/health")
+async def health_check():
+    return {"status": "ok", "timestamp": datetime.now(timezone.utc).isoformat()}
+
+# Warm up endpoint - lightweight DB ping
+@api_router.get("/ping")
+async def ping():
+    try:
+        database = get_db()
+        await database.command('ping')
+        return {"status": "ok", "db": "connected"}
+    except Exception as e:
+        logger.error(f"Ping failed: {e}")
+        return {"status": "ok", "db": "connecting"}
 
 # ============ MODELS ============
 
