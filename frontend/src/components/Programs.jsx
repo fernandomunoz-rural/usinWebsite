@@ -1,28 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { GraduationCap, Trees, Home, Heart, Calendar, MapPin, Users, Briefcase, ExternalLink } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
-import { getPrograms } from '../utils/cmsStorage';
+import { useCMS } from '../context/CMSContext';
 
 export const Programs = () => {
-  const [programs, setPrograms] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Load programs from CMS storage
-    const loadPrograms = async () => {
-      try {
-        const loadedPrograms = await getPrograms();
-        setPrograms(loadedPrograms.filter(p => p.active));
-      } catch (error) {
-        console.error('Failed to load programs:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadPrograms();
-  }, []);
+  const { programs: allPrograms, loading } = useCMS();
+  
+  // Filter active programs
+  const programs = allPrograms.filter(p => p.active);
 
   // Icon mapping
   const iconMap = {
