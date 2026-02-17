@@ -404,14 +404,14 @@ async def initialize_cms():
 
 @api_router.post("/forms/submit")
 async def submit_form(submission: FormSubmission):
-    """Handle all form submissions"""
+    """Handle all form submissions - optimized for speed"""
     try:
-        # Save to database
+        # Save to database first (quick operation)
         doc = submission.model_dump()
         doc['submittedAt'] = doc['submittedAt'].isoformat()
         await db().form_submissions.insert_one(doc)
         
-        # Send email notification
+        # Prepare email (do not await - fire and forget)
         form_type = submission.formType
         data = submission.data
         
@@ -476,12 +476,12 @@ Program Application: {form_type.title()}
             subject = f"Form Submission - {form_type}"
             body = str(data)
         
-        # Send email
-        await send_email(subject, body, 'utahintercollegiateservicenetw@gmail.com')
+        # Send email in background (non-blocking)
+        asyncio.create_task(send_email(subject, body, 'utahintercollegiateservicenetw@gmail.com'))
         
         return {"success": True, "message": "Form submitted successfully"}
     except Exception as e:
-        logging.error(f"Form submission error: {str(e)}")
+        logger.error(f"Form submission error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/forms/submissions")
