@@ -69,8 +69,13 @@ function LandingPage() {
 
 export default function App() {
   useEffect(() => {
-    // Initialize storage on app load (async)
-    initializeStorage();
+    // Initialize storage and prefetch all CMS data on app load
+    const init = async () => {
+      await initializeStorage();
+      // Prefetch all CMS data to populate cache
+      await getAllCMSData();
+    };
+    init();
   }, []);
 
   return (
