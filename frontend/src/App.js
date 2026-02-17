@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from './components/ui/sonner';
-import { initializeStorage } from './utils/cmsStorage';
+import { initializeStorage, getAllCMSData } from './utils/cmsStorage';
 
 // Public Pages
 import Navigation from './components/Navigation';
