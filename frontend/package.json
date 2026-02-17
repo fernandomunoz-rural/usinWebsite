@@ -59,7 +59,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "DISABLE_ESLINT_PLUGIN=true TSC_COMPILE_ON_ERROR=true DISABLE_NEW_JSX_TRANSFORM=true react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test"
   },
   "browserslist": {
