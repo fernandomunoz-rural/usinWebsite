@@ -58,17 +58,11 @@ export const Navigation = () => {
                 {item.label}
               </button>
             ))}
-            <Button
-              onClick={() => scrollToSection('#get-involved')}
-              className="ml-4 bg-secondary hover:bg-secondary/90 text-secondary-foreground"
-            >
-              Donate
-            </Button>
             
             {/* Sign In Button - Always shows Sign In, admin panel appears after login */}
             <Button
               onClick={() => window.location.href = '/admin/login'}
-              className="ml-2 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+              className="ml-4 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
               variant="outline"
             >
               <LogIn size={16} className="mr-2" />
