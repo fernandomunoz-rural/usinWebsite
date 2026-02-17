@@ -1,18 +1,9 @@
-// Simple CMS storage using localStorage
-// In production, this would be replaced with a real backend API
+// CMS storage using backend API
+// Replaces localStorage with real database persistence
 
-const STORAGE_KEYS = {
-  PROGRAMS: 'uisn_programs',
-  EVENTS: 'uisn_events',
-  ANNOUNCEMENTS: 'uisn_announcements',
-  OPPORTUNITIES: 'uisn_opportunities',
-  STATS: 'uisn_stats',
-  IMPACT_STORIES: 'uisn_impact_stories',
-  ABOUT_CONTENT: 'uisn_about_content',
-  SETTINGS: 'uisn_settings',
-};
+const API_BASE = process.env.REACT_APP_BACKEND_URL;
 
-// Initialize default data
+// Default data for fallback when API is unavailable
 const DEFAULT_DATA = {
   programs: [
     {
@@ -142,7 +133,7 @@ const DEFAULT_DATA = {
     {
       id: '2',
       title: 'Growing Network',
-      description: 'Started at Snow College, we\'ve expanded to partner with 9 universities across Utah, creating a statewide movement.',
+      description: "Started at Snow College, we've expanded to partner with 9 universities across Utah, creating a statewide movement.",
       image: 'https://images.unsplash.com/photo-1615856210162-9ae33390b1a2?w=800&q=80',
       active: true,
     },
@@ -156,7 +147,7 @@ const DEFAULT_DATA = {
   ],
   aboutContent: {
     mission: 'To mobilize and empower college students across Utah to serve their communities, develop leadership skills, and create lasting positive impact through coordinated volunteer initiatives that address real community needs.',
-    story: 'Founded in 2026 at Snow College by a passionate group of students who saw the need for coordinated service across Utah\'s universities. With the support and guidance of UServeUtah, we launched UISN to create a statewide network where college students could collaborate on meaningful service projects. What started as a small group at Snow College has grown into a movement spanning 9+ universities, with over 1,000 active volunteers making a real difference in their communities.',
+    story: "Founded in 2026 at Snow College by a passionate group of students who saw the need for coordinated service across Utah's universities. With the support and guidance of UServeUtah, we launched UISN to create a statewide network where college students could collaborate on meaningful service projects. What started as a small group at Snow College has grown into a movement spanning 9+ universities, with over 1,000 active volunteers making a real difference in their communities.",
   },
   settings: {
     donateEnabled: false,
@@ -164,236 +155,308 @@ const DEFAULT_DATA = {
   },
 };
 
-// Initialize storage with default data if empty
-export const initializeStorage = () => {
-  // Force clear old programs data to remove Environmental Action
-  localStorage.removeItem(STORAGE_KEYS.PROGRAMS);
-  
-  Object.entries(DEFAULT_DATA).forEach(([key, value]) => {
-    const storageKey = STORAGE_KEYS[key.toUpperCase()];
-    if (!localStorage.getItem(storageKey)) {
-      localStorage.setItem(storageKey, JSON.stringify(value));
+// Helper function for API calls
+const apiCall = async (endpoint, options = {}) => {
+  try {
+    const response = await fetch(`${API_BASE}/api${endpoint}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+      ...options,
+    });
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`);
     }
-  });
+    return await response.json();
+  } catch (error) {
+    console.error(`API call failed for ${endpoint}:`, error);
+    throw error;
+  }
+};
+
+// Initialize storage - now calls backend to ensure data exists
+export const initializeStorage = async () => {
+  try {
+    await apiCall('/cms/initialize', { method: 'POST' });
+  } catch (error) {
+    console.warn('Failed to initialize storage:', error);
+  }
 };
 
 // Programs
-export const getPrograms = () => {
-  const data = localStorage.getItem(STORAGE_KEYS.PROGRAMS);
-  return data ? JSON.parse(data) : DEFAULT_DATA.programs;
+export const getPrograms = async () => {
+  try {
+    return await apiCall('/cms/programs');
+  } catch (error) {
+    return DEFAULT_DATA.programs;
+  }
 };
 
-export const savePrograms = (programs) => {
-  localStorage.setItem(STORAGE_KEYS.PROGRAMS, JSON.stringify(programs));
+export const savePrograms = async (programs) => {
+  // Not used directly - use add/update/delete instead
+  console.warn('savePrograms is deprecated. Use addProgram, updateProgram, or deleteProgram instead.');
 };
 
-export const addProgram = (program) => {
-  const programs = getPrograms();
+export const addProgram = async (program) => {
   const newProgram = {
     ...program,
     id: Date.now().toString(),
     active: true,
   };
-  programs.push(newProgram);
-  savePrograms(programs);
+  await apiCall('/cms/programs', {
+    method: 'POST',
+    body: JSON.stringify(newProgram),
+  });
   return newProgram;
 };
 
-export const updateProgram = (id, updates) => {
-  const programs = getPrograms();
-  const index = programs.findIndex((p) => p.id === id);
-  if (index !== -1) {
-    programs[index] = { ...programs[index], ...updates };
-    savePrograms(programs);
+export const updateProgram = async (id, updates) => {
+  const programs = await getPrograms();
+  const existing = programs.find((p) => p.id === id);
+  if (existing) {
+    const updated = { ...existing, ...updates };
+    await apiCall(`/cms/programs/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(updated),
+    });
   }
 };
 
-export const deleteProgram = (id) => {
-  const programs = getPrograms().filter((p) => p.id !== id);
-  savePrograms(programs);
+export const deleteProgram = async (id) => {
+  await apiCall(`/cms/programs/${id}`, { method: 'DELETE' });
 };
 
 // Events
-export const getEvents = () => {
-  const data = localStorage.getItem(STORAGE_KEYS.EVENTS);
-  return data ? JSON.parse(data) : DEFAULT_DATA.events;
+export const getEvents = async () => {
+  try {
+    return await apiCall('/cms/events');
+  } catch (error) {
+    return DEFAULT_DATA.events;
+  }
 };
 
-export const saveEvents = (events) => {
-  localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(events));
+export const saveEvents = async (events) => {
+  console.warn('saveEvents is deprecated. Use addEvent, updateEvent, or deleteEvent instead.');
 };
 
-export const addEvent = (event) => {
-  const events = getEvents();
+export const addEvent = async (event) => {
   const newEvent = {
     ...event,
     id: Date.now().toString(),
     active: true,
   };
-  events.push(newEvent);
-  saveEvents(events);
+  await apiCall('/cms/events', {
+    method: 'POST',
+    body: JSON.stringify(newEvent),
+  });
   return newEvent;
 };
 
-export const updateEvent = (id, updates) => {
-  const events = getEvents();
-  const index = events.findIndex((e) => e.id === id);
-  if (index !== -1) {
-    events[index] = { ...events[index], ...updates };
-    saveEvents(events);
+export const updateEvent = async (id, updates) => {
+  const events = await getEvents();
+  const existing = events.find((e) => e.id === id);
+  if (existing) {
+    const updated = { ...existing, ...updates };
+    await apiCall(`/cms/events/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(updated),
+    });
   }
 };
 
-export const deleteEvent = (id) => {
-  const events = getEvents().filter((e) => e.id !== id);
-  saveEvents(events);
+export const deleteEvent = async (id) => {
+  await apiCall(`/cms/events/${id}`, { method: 'DELETE' });
 };
 
 // Announcements
-export const getAnnouncements = () => {
-  const data = localStorage.getItem(STORAGE_KEYS.ANNOUNCEMENTS);
-  return data ? JSON.parse(data) : DEFAULT_DATA.announcements;
+export const getAnnouncements = async () => {
+  try {
+    return await apiCall('/cms/announcements');
+  } catch (error) {
+    return DEFAULT_DATA.announcements;
+  }
 };
 
-export const saveAnnouncements = (announcements) => {
-  localStorage.setItem(STORAGE_KEYS.ANNOUNCEMENTS, JSON.stringify(announcements));
+export const saveAnnouncements = async (announcements) => {
+  console.warn('saveAnnouncements is deprecated. Use addAnnouncement, updateAnnouncement, or deleteAnnouncement instead.');
 };
 
-export const addAnnouncement = (announcement) => {
-  const announcements = getAnnouncements();
+export const addAnnouncement = async (announcement) => {
   const newAnnouncement = {
     ...announcement,
     id: Date.now().toString(),
     active: true,
     date: new Date().toISOString().split('T')[0],
   };
-  announcements.push(newAnnouncement);
-  saveAnnouncements(announcements);
+  await apiCall('/cms/announcements', {
+    method: 'POST',
+    body: JSON.stringify(newAnnouncement),
+  });
   return newAnnouncement;
 };
 
-export const updateAnnouncement = (id, updates) => {
-  const announcements = getAnnouncements();
-  const index = announcements.findIndex((a) => a.id === id);
-  if (index !== -1) {
-    announcements[index] = { ...announcements[index], ...updates };
-    saveAnnouncements(announcements);
+export const updateAnnouncement = async (id, updates) => {
+  const announcements = await getAnnouncements();
+  const existing = announcements.find((a) => a.id === id);
+  if (existing) {
+    const updated = { ...existing, ...updates };
+    await apiCall(`/cms/announcements/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(updated),
+    });
   }
 };
 
-export const deleteAnnouncement = (id) => {
-  const announcements = getAnnouncements().filter((a) => a.id !== id);
-  saveAnnouncements(announcements);
+export const deleteAnnouncement = async (id) => {
+  await apiCall(`/cms/announcements/${id}`, { method: 'DELETE' });
 };
 
 // Opportunities
-export const getOpportunities = () => {
-  const data = localStorage.getItem(STORAGE_KEYS.OPPORTUNITIES);
-  return data ? JSON.parse(data) : DEFAULT_DATA.opportunities;
+export const getOpportunities = async () => {
+  try {
+    return await apiCall('/cms/opportunities');
+  } catch (error) {
+    return DEFAULT_DATA.opportunities;
+  }
 };
 
-export const saveOpportunities = (opportunities) => {
-  localStorage.setItem(STORAGE_KEYS.OPPORTUNITIES, JSON.stringify(opportunities));
+export const saveOpportunities = async (opportunities) => {
+  console.warn('saveOpportunities is deprecated. Use addOpportunity, updateOpportunity, or deleteOpportunity instead.');
 };
 
-export const addOpportunity = (opportunity) => {
-  const opportunities = getOpportunities();
+export const addOpportunity = async (opportunity) => {
   const newOpportunity = {
     ...opportunity,
     id: Date.now().toString(),
     active: true,
   };
-  opportunities.push(newOpportunity);
-  saveOpportunities(opportunities);
+  await apiCall('/cms/opportunities', {
+    method: 'POST',
+    body: JSON.stringify(newOpportunity),
+  });
   return newOpportunity;
 };
 
-export const updateOpportunity = (id, updates) => {
-  const opportunities = getOpportunities();
-  const index = opportunities.findIndex((o) => o.id === id);
-  if (index !== -1) {
-    opportunities[index] = { ...opportunities[index], ...updates };
-    saveOpportunities(opportunities);
+export const updateOpportunity = async (id, updates) => {
+  const opportunities = await getOpportunities();
+  const existing = opportunities.find((o) => o.id === id);
+  if (existing) {
+    const updated = { ...existing, ...updates };
+    await apiCall(`/cms/opportunities/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(updated),
+    });
   }
 };
 
-export const deleteOpportunity = (id) => {
-  const opportunities = getOpportunities().filter((o) => o.id !== id);
-  saveOpportunities(opportunities);
+export const deleteOpportunity = async (id) => {
+  await apiCall(`/cms/opportunities/${id}`, { method: 'DELETE' });
 };
 
 // Stats
-export const getStats = () => {
-  const data = localStorage.getItem(STORAGE_KEYS.STATS);
-  return data ? JSON.parse(data) : DEFAULT_DATA.stats;
+export const getStats = async () => {
+  try {
+    return await apiCall('/cms/stats');
+  } catch (error) {
+    return DEFAULT_DATA.stats;
+  }
 };
 
-export const saveStats = (stats) => {
-  localStorage.setItem(STORAGE_KEYS.STATS, JSON.stringify(stats));
+export const saveStats = async (stats) => {
+  console.warn('saveStats is deprecated. Use updateStat instead.');
 };
 
-export const updateStat = (id, updates) => {
-  const stats = getStats();
-  const index = stats.findIndex((s) => s.id === id);
-  if (index !== -1) {
-    stats[index] = { ...stats[index], ...updates };
-    saveStats(stats);
+export const updateStat = async (id, updates) => {
+  const stats = await getStats();
+  const existing = stats.find((s) => s.id === id);
+  if (existing) {
+    const updated = { ...existing, ...updates };
+    await apiCall(`/cms/stats/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(updated),
+    });
   }
 };
 
 // Impact Stories
-export const getImpactStories = () => {
-  const data = localStorage.getItem(STORAGE_KEYS.IMPACT_STORIES);
-  return data ? JSON.parse(data) : DEFAULT_DATA.impactStories;
+export const getImpactStories = async () => {
+  try {
+    return await apiCall('/cms/impact-stories');
+  } catch (error) {
+    return DEFAULT_DATA.impactStories;
+  }
 };
 
-export const saveImpactStories = (stories) => {
-  localStorage.setItem(STORAGE_KEYS.IMPACT_STORIES, JSON.stringify(stories));
+export const saveImpactStories = async (stories) => {
+  console.warn('saveImpactStories is deprecated. Use addImpactStory, updateImpactStory, or deleteImpactStory instead.');
 };
 
-export const addImpactStory = (story) => {
-  const stories = getImpactStories();
+export const addImpactStory = async (story) => {
   const newStory = {
     ...story,
     id: Date.now().toString(),
     active: true,
   };
-  stories.push(newStory);
-  saveImpactStories(stories);
+  await apiCall('/cms/impact-stories', {
+    method: 'POST',
+    body: JSON.stringify(newStory),
+  });
   return newStory;
 };
 
-export const updateImpactStory = (id, updates) => {
-  const stories = getImpactStories();
-  const index = stories.findIndex((s) => s.id === id);
-  if (index !== -1) {
-    stories[index] = { ...stories[index], ...updates };
-    saveImpactStories(stories);
+export const updateImpactStory = async (id, updates) => {
+  const stories = await getImpactStories();
+  const existing = stories.find((s) => s.id === id);
+  if (existing) {
+    const updated = { ...existing, ...updates };
+    await apiCall(`/cms/impact-stories/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(updated),
+    });
   }
 };
 
-export const deleteImpactStory = (id) => {
-  const stories = getImpactStories().filter((s) => s.id !== id);
-  saveImpactStories(stories);
+export const deleteImpactStory = async (id) => {
+  await apiCall(`/cms/impact-stories/${id}`, { method: 'DELETE' });
 };
 
 // About Content
-export const getAboutContent = () => {
-  const data = localStorage.getItem(STORAGE_KEYS.ABOUT_CONTENT);
-  return data ? JSON.parse(data) : DEFAULT_DATA.aboutContent;
+export const getAboutContent = async () => {
+  try {
+    return await apiCall('/cms/about');
+  } catch (error) {
+    return DEFAULT_DATA.aboutContent;
+  }
 };
 
-export const saveAboutContent = (content) => {
-  localStorage.setItem(STORAGE_KEYS.ABOUT_CONTENT, JSON.stringify(content));
+export const saveAboutContent = async (content) => {
+  await apiCall('/cms/about', {
+    method: 'PUT',
+    body: JSON.stringify(content),
+  });
 };
 
 // Settings
-export const getSettings = () => {
-  const data = localStorage.getItem(STORAGE_KEYS.SETTINGS);
-  return data ? JSON.parse(data) : DEFAULT_DATA.settings;
+export const getSettings = async () => {
+  try {
+    return await apiCall('/cms/settings');
+  } catch (error) {
+    return DEFAULT_DATA.settings;
+  }
 };
 
-export const saveSettings = (settings) => {
-  localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
+export const saveSettings = async (settings) => {
+  await apiCall('/cms/settings', {
+    method: 'PUT',
+    body: JSON.stringify(settings),
+  });
 };
 
+// Form Submissions
+export const submitForm = async (formType, data) => {
+  return await apiCall('/forms/submit', {
+    method: 'POST',
+    body: JSON.stringify({ formType, data }),
+  });
+};
