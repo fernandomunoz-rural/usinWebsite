@@ -1,30 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { TrendingUp, Users, Clock, Heart } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
-import { getStats, getImpactStories } from '../utils/cmsStorage';
+import { useCMS } from '../context/CMSContext';
 
 export const Impact = () => {
-  const [stats, setStats] = useState([]);
-  const [impactStories, setImpactStories] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const [loadedStats, loadedStories] = await Promise.all([
-          getStats(),
-          getImpactStories()
-        ]);
-        setStats(loadedStats);
-        setImpactStories(loadedStories.filter(s => s.active));
-      } catch (error) {
-        console.error('Failed to load impact data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadData();
-  }, []);
+  const { stats, impactStories: allStories, loading } = useCMS();
+  
+  // Filter active stories
+  const impactStories = allStories.filter(s => s.active);
 
   // Icon mapping
   const iconMap = {
