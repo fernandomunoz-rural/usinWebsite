@@ -105,7 +105,15 @@ export const About = () => {
           <div className="max-w-3xl mx-auto text-center">
             <h3 className="text-3xl font-bold text-primary mb-6">Our Story</h3>
             <p className="text-lg text-foreground/90 leading-relaxed whitespace-pre-line">
-              {aboutContent.story || 'Loading...'}
+              {loading ? (
+                <span className="space-y-2 block">
+                  <span className="block h-5 w-full bg-muted-foreground/10 animate-pulse rounded" />
+                  <span className="block h-5 w-full bg-muted-foreground/10 animate-pulse rounded" />
+                  <span className="block h-5 w-3/4 bg-muted-foreground/10 animate-pulse rounded" />
+                </span>
+              ) : (
+                aboutContent.story || 'Story loading...'
+              )}
             </p>
           </div>
         </div>
