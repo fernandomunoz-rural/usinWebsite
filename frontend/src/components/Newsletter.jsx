@@ -4,15 +4,21 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { toast } from 'sonner';
 import { Mail, Send } from 'lucide-react';
+import { submitForm } from '../utils/cmsStorage';
 
 export const Newsletter = () => {
   const [email, setEmail] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (email) {
-      toast.success('Thank you for subscribing! Check your email for confirmation.');
-      setEmail('');
+      try {
+        await submitForm('newsletter', { email });
+        toast.success('Thank you for subscribing! Check your email for confirmation.');
+        setEmail('');
+      } catch (error) {
+        toast.error('Failed to subscribe. Please try again.');
+      }
     }
   };
 
