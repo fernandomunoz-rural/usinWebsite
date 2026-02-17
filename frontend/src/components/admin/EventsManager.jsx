@@ -5,7 +5,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { toast } from 'sonner';
-import { Plus, Edit2, Trash2, Save, X, Calendar as CalendarIcon } from 'lucide-react';
+import { Plus, Edit2, Trash2, Save, X, Calendar as CalendarIcon, Image } from 'lucide-react';
 import { getEvents, addEvent, updateEvent, deleteEvent } from '../../utils/cmsStorage';
 
 export const EventsManager = () => {
@@ -19,6 +19,7 @@ export const EventsManager = () => {
     location: '',
     description: '',
     registrationLink: '',
+    image: '',
   });
 
   useEffect(() => {
