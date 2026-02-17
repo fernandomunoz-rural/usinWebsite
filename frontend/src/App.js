@@ -65,20 +65,11 @@ function LandingPage() {
       {/* Admin Panel - Only shows when logged in */}
       {isAuthenticated && <AdminPanel onLogout={handleLogout} />}
     </div>
+    </CMSProvider>
   );
 }
 
 export default function App() {
-  useEffect(() => {
-    // Initialize storage and prefetch all CMS data on app load
-    const init = async () => {
-      await initializeStorage();
-      // Prefetch all CMS data to populate cache
-      await getAllCMSData();
-    };
-    init();
-  }, []);
-
   return (
     <Router>
       <Routes>
