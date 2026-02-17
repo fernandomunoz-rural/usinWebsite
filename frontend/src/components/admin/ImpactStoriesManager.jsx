@@ -22,35 +22,36 @@ export const ImpactStoriesManager = () => {
     loadStories();
   }, []);
 
-  const loadStories = () => {
-    setStories(getImpactStories());
+  const loadStories = async () => {
+    const data = await getImpactStories();
+    setStories(data);
   };
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (!formData.title || !formData.description) {
       toast.error('Please fill in all required fields');
       return;
     }
-    addImpactStory(formData);
+    await addImpactStory(formData);
     toast.success('Impact story added successfully!');
     resetForm();
     loadStories();
   };
 
-  const handleUpdate = (id) => {
+  const handleUpdate = async (id) => {
     if (!formData.title || !formData.description) {
       toast.error('Please fill in all required fields');
       return;
     }
-    updateImpactStory(id, formData);
+    await updateImpactStory(id, formData);
     toast.success('Impact story updated successfully!');
     resetForm();
     loadStories();
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this impact story?')) {
-      deleteImpactStory(id);
+      await deleteImpactStory(id);
       toast.success('Impact story deleted successfully!');
       loadStories();
     }

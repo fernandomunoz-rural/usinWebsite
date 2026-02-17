@@ -24,35 +24,36 @@ export const AnnouncementsManager = () => {
     loadAnnouncements();
   }, []);
 
-  const loadAnnouncements = () => {
-    setAnnouncements(getAnnouncements());
+  const loadAnnouncements = async () => {
+    const data = await getAnnouncements();
+    setAnnouncements(data);
   };
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (!formData.title || !formData.content) {
       toast.error('Please fill in all required fields');
       return;
     }
-    addAnnouncement(formData);
+    await addAnnouncement(formData);
     toast.success('Announcement added successfully!');
     resetForm();
     loadAnnouncements();
   };
 
-  const handleUpdate = (id) => {
+  const handleUpdate = async (id) => {
     if (!formData.title || !formData.content) {
       toast.error('Please fill in all required fields');
       return;
     }
-    updateAnnouncement(id, formData);
+    await updateAnnouncement(id, formData);
     toast.success('Announcement updated successfully!');
     resetForm();
     loadAnnouncements();
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this announcement?')) {
-      deleteAnnouncement(id);
+      await deleteAnnouncement(id);
       toast.success('Announcement deleted successfully!');
       loadAnnouncements();
     }

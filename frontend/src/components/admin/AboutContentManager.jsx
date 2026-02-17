@@ -14,16 +14,19 @@ export const AboutContentManager = () => {
   });
 
   useEffect(() => {
-    const content = getAboutContent();
-    setFormData(content);
+    const loadContent = async () => {
+      const content = await getAboutContent();
+      setFormData(content);
+    };
+    loadContent();
   }, []);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!formData.mission || !formData.story) {
       toast.error('Please fill in all fields');
       return;
     }
-    saveAboutContent(formData);
+    await saveAboutContent(formData);
     toast.success('About content updated successfully! Refresh the page to see changes.');
   };
 

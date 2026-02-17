@@ -25,11 +25,12 @@ export const OpportunitiesManager = () => {
     loadOpportunities();
   }, []);
 
-  const loadOpportunities = () => {
-    setOpportunities(getOpportunities());
+  const loadOpportunities = async () => {
+    const data = await getOpportunities();
+    setOpportunities(data);
   };
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (!formData.title || !formData.description) {
       toast.error('Please fill in all required fields');
       return;
@@ -38,13 +39,13 @@ export const OpportunitiesManager = () => {
       ...formData,
       skills: formData.skills.split(',').map((s) => s.trim()).filter(Boolean),
     };
-    addOpportunity(opportunity);
+    await addOpportunity(opportunity);
     toast.success('Opportunity added successfully!');
     resetForm();
     loadOpportunities();
   };
 
-  const handleUpdate = (id) => {
+  const handleUpdate = async (id) => {
     if (!formData.title || !formData.description) {
       toast.error('Please fill in all required fields');
       return;
@@ -53,15 +54,15 @@ export const OpportunitiesManager = () => {
       ...formData,
       skills: formData.skills.split(',').map((s) => s.trim()).filter(Boolean),
     };
-    updateOpportunity(id, opportunity);
+    await updateOpportunity(id, opportunity);
     toast.success('Opportunity updated successfully!');
     resetForm();
     loadOpportunities();
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this opportunity?')) {
-      deleteOpportunity(id);
+      await deleteOpportunity(id);
       toast.success('Opportunity deleted successfully!');
       loadOpportunities();
     }
