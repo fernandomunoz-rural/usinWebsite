@@ -15,8 +15,14 @@ Create a multi-section landing page with:
 ## Tech Stack
 - **Frontend:** React, Tailwind CSS, shadcn/ui, react-router-dom
 - **Backend:** Python, FastAPI, Pydantic, motor (async MongoDB)
-- **Database:** MongoDB
-- **Deployment Target:** Vercel (Frontend) + Railway (Backend)
+- **Database:** MongoDB (Atlas for production)
+- **Deployment:** Netlify (Frontend) + Railway (Backend)
+
+## Deployment Status
+- ✅ **Backend:** Successfully deployed on Railway
+- ✅ **Frontend:** Successfully deployed on Netlify
+- ✅ **Database:** MongoDB Atlas connected
+- ✅ **Email:** Gmail SMTP working
 
 ## Core Features
 
@@ -25,26 +31,28 @@ Create a multi-section landing page with:
 - [x] Custom design system with UISN brand colors
 - [x] FastAPI backend with MongoDB integration
 - [x] All CMS API endpoints (programs, events, stats, about, impact stories, etc.)
+- [x] Combined `/api/cms/all` endpoint for faster loading
 - [x] Form submission API with database persistence
-- [x] Frontend-Backend integration (replaced localStorage with API calls)
+- [x] Email notifications for form submissions
+- [x] Frontend-Backend integration with caching layer
 - [x] Admin authentication system
 - [x] Admin panel with content managers for all sections
 - [x] Custom program pages with unique application forms
 - [x] Dynamic event detail pages (/event/:id)
 - [x] UISN logo in hero section
 - [x] SnowServes event with building image
-
-### Pending (P1)
-- [ ] Email notifications for form submissions (requires Gmail App Password)
-- [ ] Deployment to Vercel + Railway
+- [x] Loading skeletons for better UX
+- [x] Mobile responsive design (all sections)
 
 ### Future (P2)
 - [ ] Custom domain configuration
 - [ ] Form submissions dashboard in admin panel
+- [ ] Social sharing for events
 
 ## API Endpoints
 | Endpoint | Method | Description |
 |----------|--------|-------------|
+| `/api/cms/all` | GET | Fetch all CMS data (optimized) |
 | `/api/cms/programs` | GET, POST, PUT, DELETE | Manage programs |
 | `/api/cms/events` | GET, POST, PUT, DELETE | Manage events |
 | `/api/cms/stats` | GET, PUT | Manage statistics |
@@ -69,17 +77,25 @@ Create a multi-section landing page with:
 
 ## Key Files
 - `/app/backend/server.py` - FastAPI backend
-- `/app/frontend/src/utils/cmsStorage.js` - API integration layer
+- `/app/frontend/src/utils/cmsStorage.js` - API integration layer with caching
 - `/app/frontend/src/App.js` - Main React app
 - `/app/frontend/src/components/admin/*` - Admin panel components
 - `/app/frontend/src/pages/ProgramDetail.jsx` - Program application forms
 - `/app/frontend/src/pages/EventDetail.jsx` - Dynamic event detail page
 
+## Performance Optimizations (Feb 2026)
+- Added combined `/api/cms/all` endpoint
+- Implemented client-side caching (30s cache duration)
+- Added MongoDB connection pooling
+- Added loading skeletons for better perceived performance
+- Prefetch CMS data on app initialization
+
 ## Testing Status
-- Backend: 100% pass rate (36/36 tests)
+- Backend: All endpoints working
 - Frontend: All sections display correctly with API data
 - Admin Panel: All CRUD operations working
-- Forms: All submissions persist to database
+- Forms: All submissions persist to database and trigger emails
+- Mobile: Responsive design verified
 
 ## Last Updated
-December 2025 - Backend migration complete, all tests passing, event detail page dynamic
+February 2026 - Performance optimizations, loading states, mobile responsive fixes
