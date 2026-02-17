@@ -365,8 +365,16 @@ export const GetInvolved = () => {
                   type="submit"
                   className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
                   size="lg"
+                  disabled={isSubmitting}
                 >
-                  Submit Partnership Request
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 animate-spin" size={16} />
+                      Submitting...
+                    </>
+                  ) : (
+                    'Submit Partnership Request'
+                  )}
                 </Button>
               </form>
             </CardContent>
