@@ -477,6 +477,9 @@ export const deleteImpactStory = async (id) => {
 // About Content
 export const getAboutContent = async () => {
   try {
+    if (cachedData && cacheTimestamp && (Date.now() - cacheTimestamp) < CACHE_DURATION) {
+      return cachedData.about;
+    }
     return await apiCall('/cms/about');
   } catch (error) {
     return DEFAULT_DATA.aboutContent;
