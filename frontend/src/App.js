@@ -46,8 +46,9 @@ function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen">
-      <Navigation />
+    <CMSProvider>
+      <div className="min-h-screen">
+        <Navigation />
       <main>
         <Hero />
         <About />
