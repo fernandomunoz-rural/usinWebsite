@@ -3,21 +3,25 @@ import { Card, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { toast } from 'sonner';
-import { Mail, Send } from 'lucide-react';
+import { Mail, Send, Loader2 } from 'lucide-react';
 import { submitForm } from '../utils/cmsStorage';
 
 export const Newsletter = () => {
   const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (email) {
+      setIsSubmitting(true);
       try {
         await submitForm('newsletter', { email });
         toast.success('Thank you for subscribing! Check your email for confirmation.');
         setEmail('');
       } catch (error) {
         toast.error('Failed to subscribe. Please try again.');
+      } finally {
+        setIsSubmitting(false);
       }
     }
   };
