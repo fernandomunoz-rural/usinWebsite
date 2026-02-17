@@ -268,11 +268,15 @@ export const updateProgram = async (id, updates) => {
 
 export const deleteProgram = async (id) => {
   await apiCall(`/cms/programs/${id}`, { method: 'DELETE' });
+  clearCache();
 };
 
 // Events
 export const getEvents = async () => {
   try {
+    if (cachedData && cacheTimestamp && (Date.now() - cacheTimestamp) < CACHE_DURATION) {
+      return cachedData.events;
+    }
     return await apiCall('/cms/events');
   } catch (error) {
     return DEFAULT_DATA.events;
