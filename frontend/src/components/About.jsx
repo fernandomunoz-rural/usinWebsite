@@ -5,11 +5,18 @@ import { getAboutContent } from '../utils/cmsStorage';
 
 export const About = () => {
   const [aboutContent, setAboutContent] = useState({ mission: '', story: '' });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadContent = async () => {
-      const content = await getAboutContent();
-      setAboutContent(content);
+      try {
+        const content = await getAboutContent();
+        setAboutContent(content);
+      } catch (error) {
+        console.error('Failed to load about content:', error);
+      } finally {
+        setLoading(false);
+      }
     };
     loadContent();
   }, []);
