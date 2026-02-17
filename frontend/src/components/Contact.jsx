@@ -173,9 +173,19 @@ export const Contact = () => {
                     type="submit"
                     className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground"
                     size="lg"
+                    disabled={isSubmitting}
                   >
-                    Send Message
-                    <Send className="ml-2" size={16} />
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 animate-spin" size={16} />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        Send Message
+                        <Send className="ml-2" size={16} />
+                      </>
+                    )}
                   </Button>
                 </form>
               </CardContent>
