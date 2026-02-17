@@ -102,12 +102,20 @@ export const Events = () => {
                   </p>
                 )}
 
-                {event.registrationLink && event.registrationLink !== '#' && (
+                {event.registrationLink && event.registrationLink !== '#' ? (
                   <Button 
                     className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground"
-                    onClick={() => window.open(event.registrationLink, '_blank')}
+                    onClick={() => window.location.href = `/event/${event.id}`}
                   >
-                    Register Now
+                    See More
+                    <ExternalLink className="ml-2" size={16} />
+                  </Button>
+                ) : (
+                  <Button 
+                    className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+                    onClick={() => window.location.href = `/event/${event.id}`}
+                  >
+                    See More
                     <ExternalLink className="ml-2" size={16} />
                   </Button>
                 )}
