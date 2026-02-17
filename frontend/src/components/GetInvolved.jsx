@@ -47,6 +47,7 @@ export const GetInvolved = () => {
 
   const handleVolunteerSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     
     try {
       await submitForm('volunteer', volunteerForm);
@@ -62,11 +63,14 @@ export const GetInvolved = () => {
       });
     } catch (error) {
       toast.error('Failed to submit. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handlePartnerSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     
     try {
       await submitForm('partner', partnerForm);
@@ -81,6 +85,8 @@ export const GetInvolved = () => {
       });
     } catch (error) {
       toast.error('Failed to submit. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
