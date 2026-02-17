@@ -7,11 +7,12 @@ import { Textarea } from './ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Checkbox } from './ui/checkbox';
 import { toast } from 'sonner';
-import { UserPlus, Building2 } from 'lucide-react';
+import { UserPlus, Building2, Loader2 } from 'lucide-react';
 import { submitForm } from '../utils/cmsStorage';
 
 export const GetInvolved = () => {
   const [activeTab, setActiveTab] = useState('volunteer');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [volunteerForm, setVolunteerForm] = useState({
     name: '',
     email: '',
