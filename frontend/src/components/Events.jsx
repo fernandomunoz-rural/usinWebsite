@@ -36,6 +36,34 @@ export const Events = () => {
     });
   };
 
+  if (loading) {
+    return (
+      <section className="py-20 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="section-heading">Upcoming Events</h2>
+            <p className="section-subheading">Loading events...</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1, 2, 3].map((i) => (
+              <Card key={i} className="overflow-hidden">
+                <div className="h-48 bg-muted animate-pulse" />
+                <CardContent className="p-6">
+                  <div className="h-6 w-3/4 bg-muted animate-pulse rounded mb-3" />
+                  <div className="space-y-2 mb-4">
+                    <div className="h-4 w-full bg-muted animate-pulse rounded" />
+                    <div className="h-4 w-2/3 bg-muted animate-pulse rounded" />
+                  </div>
+                  <div className="h-10 w-full bg-muted animate-pulse rounded" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   if (events.length === 0) {
     return null;
   }
