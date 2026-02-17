@@ -180,12 +180,20 @@ const apiCall = async (endpoint, options = {}) => {
   }
 };
 
-// Initialize storage - now calls backend to ensure data exists
+// Initialize storage - only needed once, skip if data already exists
+let initializationAttempted = false;
 export const initializeStorage = async () => {
+  if (initializationAttempted) return;
+  initializationAttempted = true;
+  
   try {
-    await apiCall('/cms/initialize', { method: 'POST' });
+    // Use a simple GET first to check if data exists (faster than POST)
+    const response = await fetch(`${API_BASE}/api/health`);
+    if (response.ok) {
+      console.log('Backend is healthy');
+    }
   } catch (error) {
-    console.warn('Failed to initialize storage:', error);
+    console.warn('Backend health check failed:', error);
   }
 };
 
