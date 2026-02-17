@@ -35,6 +35,49 @@ export const Programs = () => {
     Briefcase,
   };
 
+  // Loading skeleton component
+  const ProgramSkeleton = () => (
+    <Card className="overflow-hidden">
+      <CardHeader className="bg-muted/20 border-b">
+        <div className="flex items-start space-x-4">
+          <div className="w-14 h-14 bg-muted animate-pulse rounded-xl" />
+          <div className="flex-1">
+            <div className="h-7 w-3/4 bg-muted animate-pulse rounded mb-2" />
+            <div className="h-5 w-24 bg-muted animate-pulse rounded" />
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent className="p-6">
+        <div className="space-y-2 mb-6">
+          <div className="h-4 w-full bg-muted animate-pulse rounded" />
+          <div className="h-4 w-full bg-muted animate-pulse rounded" />
+          <div className="h-4 w-2/3 bg-muted animate-pulse rounded" />
+        </div>
+        <div className="space-y-2 mb-6">
+          <div className="h-4 w-1/2 bg-muted animate-pulse rounded" />
+          <div className="h-4 w-1/3 bg-muted animate-pulse rounded" />
+        </div>
+        <div className="h-10 w-full bg-muted animate-pulse rounded" />
+      </CardContent>
+    </Card>
+  );
+
+  if (loading) {
+    return (
+      <section id="programs" className="py-20 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="section-heading">Our Programs</h2>
+            <p className="section-subheading">Loading programs...</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8 mb-16">
+            {[1, 2, 3, 4].map((i) => <ProgramSkeleton key={i} />)}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="programs" className="py-20 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
