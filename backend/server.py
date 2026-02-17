@@ -46,6 +46,7 @@ class Event(BaseModel):
     location: str
     description: Optional[str] = None
     registrationLink: Optional[str] = None
+    image: Optional[str] = None
     active: bool
 
 class Announcement(BaseModel):
