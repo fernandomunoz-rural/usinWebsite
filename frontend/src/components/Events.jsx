@@ -9,10 +9,14 @@ export const Events = () => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    const loadedEvents = getEvents().filter(e => e.active);
-    // Sort by date
-    const sortedEvents = loadedEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
-    setEvents(sortedEvents);
+    const loadEvents = async () => {
+      const loadedEvents = await getEvents();
+      const activeEvents = loadedEvents.filter(e => e.active);
+      // Sort by date
+      const sortedEvents = activeEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+      setEvents(sortedEvents);
+    };
+    loadEvents();
   }, []);
 
   const formatDate = (dateString) => {

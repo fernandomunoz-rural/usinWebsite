@@ -7,7 +7,11 @@ export const About = () => {
   const [aboutContent, setAboutContent] = useState({ mission: '', story: '' });
 
   useEffect(() => {
-    setAboutContent(getAboutContent());
+    const loadContent = async () => {
+      const content = await getAboutContent();
+      setAboutContent(content);
+    };
+    loadContent();
   }, []);
 
   const values = [

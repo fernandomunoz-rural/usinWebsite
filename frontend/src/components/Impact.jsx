@@ -8,8 +8,15 @@ export const Impact = () => {
   const [impactStories, setImpactStories] = useState([]);
 
   useEffect(() => {
-    setStats(getStats());
-    setImpactStories(getImpactStories().filter(s => s.active));
+    const loadData = async () => {
+      const [loadedStats, loadedStories] = await Promise.all([
+        getStats(),
+        getImpactStories()
+      ]);
+      setStats(loadedStats);
+      setImpactStories(loadedStories.filter(s => s.active));
+    };
+    loadData();
   }, []);
 
   // Icon mapping

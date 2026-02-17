@@ -10,8 +10,11 @@ export const Programs = () => {
 
   useEffect(() => {
     // Load programs from CMS storage
-    const loadedPrograms = getPrograms().filter(p => p.active);
-    setPrograms(loadedPrograms);
+    const loadPrograms = async () => {
+      const loadedPrograms = await getPrograms();
+      setPrograms(loadedPrograms.filter(p => p.active));
+    };
+    loadPrograms();
   }, []);
 
   // Icon mapping
