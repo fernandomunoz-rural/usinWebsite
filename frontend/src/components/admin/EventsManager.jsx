@@ -70,6 +70,7 @@ export const EventsManager = () => {
       location: event.location,
       description: event.description,
       registrationLink: event.registrationLink || '',
+      image: event.image || '',
     });
     setIsAdding(false);
   };
@@ -82,6 +83,7 @@ export const EventsManager = () => {
       location: '',
       description: '',
       registrationLink: '',
+      image: '',
     });
     setEditingId(null);
     setIsAdding(false);
