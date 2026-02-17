@@ -17,9 +17,13 @@ import certifi
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-# MongoDB connection with SSL certificate
+# MongoDB connection - use SSL only for Atlas (mongodb+srv)
 mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url, tlsCAFile=certifi.where())
+if mongo_url.startswith('mongodb+srv'):
+    import certifi
+    client = AsyncIOMotorClient(mongo_url, tlsCAFile=certifi.where())
+else:
+    client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
 app = FastAPI()
