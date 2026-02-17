@@ -57,14 +57,34 @@ export const EventDetail = () => {
     );
   }
 
-  // Parse activities from description
-  const activities = [
-    { icon: Heart, title: 'Mental Health Awareness', description: 'Sessions focused on student wellness and mental health support' },
-    { icon: Users, title: 'Community Actions', description: 'Hands-on service projects making direct impact in the community' },
-    { icon: Sparkles, title: 'Donation Drives', description: 'Collecting essential items for those in need' },
-    { icon: Users, title: 'Volunteers Gala', description: 'Celebrating our incredible volunteers and their contributions' },
-    { icon: Sparkles, title: 'UISN Official Inauguration', description: 'The historic launch of the Utah Intercollegiate Service Network' },
-  ];
+  // Parse highlights dynamically from event description
+  const parseHighlights = (description) => {
+    if (!description) return [];
+    
+    const keywords = [
+      { match: /mental health/i, icon: Heart, title: 'Mental Health Awareness', desc: 'Sessions focused on student wellness and mental health support' },
+      { match: /community action/i, icon: Users, title: 'Community Actions', desc: 'Hands-on service projects making direct impact in the community' },
+      { match: /donation drive/i, icon: Sparkles, title: 'Donation Drives', desc: 'Collecting essential items for those in need' },
+      { match: /volunteer.{0,5}gala/i, icon: Users, title: 'Volunteers Gala', desc: 'Celebrating our incredible volunteers and their contributions' },
+      { match: /inauguration|launch/i, icon: Sparkles, title: 'Official Inauguration', desc: 'The historic launch event' },
+      { match: /workshop/i, icon: Heart, title: 'Workshops', desc: 'Interactive learning sessions' },
+      { match: /networking/i, icon: Users, title: 'Networking', desc: 'Connect with fellow students and community members' },
+      { match: /training/i, icon: Heart, title: 'Training Sessions', desc: 'Skill-building and development opportunities' },
+      { match: /cleanup|clean up/i, icon: Sparkles, title: 'Community Cleanup', desc: 'Making our neighborhoods cleaner and greener' },
+      { match: /food (drive|bank)/i, icon: Heart, title: 'Food Drive', desc: 'Collecting food for those in need' },
+    ];
+    
+    const highlights = [];
+    keywords.forEach(kw => {
+      if (kw.match.test(description)) {
+        highlights.push({ icon: kw.icon, title: kw.title, description: kw.desc });
+      }
+    });
+    
+    return highlights;
+  };
+
+  const highlights = parseHighlights(event.description);
 
   return (
     <div className="min-h-screen bg-background">
