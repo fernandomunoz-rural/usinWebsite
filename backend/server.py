@@ -20,9 +20,23 @@ load_dotenv(ROOT_DIR / '.env')
 mongo_url = os.environ['MONGO_URL']
 if mongo_url.startswith('mongodb+srv'):
     import certifi
-    client = AsyncIOMotorClient(mongo_url, tlsCAFile=certifi.where())
+    client = AsyncIOMotorClient(
+        mongo_url, 
+        tlsCAFile=certifi.where(),
+        maxPoolSize=10,
+        minPoolSize=2,
+        serverSelectionTimeoutMS=5000,
+        connectTimeoutMS=5000,
+        socketTimeoutMS=10000
+    )
 else:
-    client = AsyncIOMotorClient(mongo_url)
+    client = AsyncIOMotorClient(
+        mongo_url,
+        maxPoolSize=10,
+        minPoolSize=2,
+        serverSelectionTimeoutMS=5000,
+        connectTimeoutMS=5000
+    )
 db = client[os.environ['DB_NAME']]
 
 app = FastAPI()
