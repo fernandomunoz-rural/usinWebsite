@@ -7,14 +7,21 @@ import { getEvents } from '../utils/cmsStorage';
 
 export const Events = () => {
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadEvents = async () => {
-      const loadedEvents = await getEvents();
-      const activeEvents = loadedEvents.filter(e => e.active);
-      // Sort by date
-      const sortedEvents = activeEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
-      setEvents(sortedEvents);
+      try {
+        const loadedEvents = await getEvents();
+        const activeEvents = loadedEvents.filter(e => e.active);
+        // Sort by date
+        const sortedEvents = activeEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+        setEvents(sortedEvents);
+      } catch (error) {
+        console.error('Failed to load events:', error);
+      } finally {
+        setLoading(false);
+      }
     };
     loadEvents();
   }, []);
