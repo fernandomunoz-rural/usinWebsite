@@ -404,6 +404,9 @@ export const deleteOpportunity = async (id) => {
 // Stats
 export const getStats = async () => {
   try {
+    if (cachedData && cacheTimestamp && (Date.now() - cacheTimestamp) < CACHE_DURATION) {
+      return cachedData.stats;
+    }
     return await apiCall('/cms/stats');
   } catch (error) {
     return DEFAULT_DATA.stats;
