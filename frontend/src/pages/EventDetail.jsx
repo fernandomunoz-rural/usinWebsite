@@ -36,8 +36,35 @@ export const EventDetail = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <p className="text-xl text-muted-foreground">Loading...</p>
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <main className="pt-20">
+          {/* Loading Skeleton */}
+          <div className="h-[50vh] bg-gradient-to-br from-primary/20 to-primary/10 animate-pulse" />
+          <div className="max-w-7xl mx-auto px-4 py-16">
+            <div className="grid lg:grid-cols-3 gap-8">
+              <div className="lg:col-span-2 space-y-8">
+                <div className="bg-card rounded-xl p-8 shadow-xl">
+                  <div className="h-8 w-48 bg-muted animate-pulse rounded mb-6" />
+                  <div className="grid md:grid-cols-3 gap-6">
+                    {[1, 2, 3].map(i => (
+                      <div key={i} className="flex items-start space-x-4">
+                        <div className="w-12 h-12 bg-muted animate-pulse rounded-xl" />
+                        <div className="flex-1">
+                          <div className="h-4 w-16 bg-muted animate-pulse rounded mb-2" />
+                          <div className="h-5 w-32 bg-muted animate-pulse rounded" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-6">
+                <div className="bg-primary rounded-xl p-8 h-64 animate-pulse" />
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
     );
   }
