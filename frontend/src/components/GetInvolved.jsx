@@ -251,8 +251,16 @@ export const GetInvolved = () => {
                   type="submit"
                   className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground"
                   size="lg"
+                  disabled={isSubmitting}
                 >
-                  Submit Application
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 animate-spin" size={16} />
+                      Submitting...
+                    </>
+                  ) : (
+                    'Submit Application'
+                  )}
                 </Button>
               </form>
             </CardContent>
