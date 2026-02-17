@@ -34,6 +34,46 @@ export const Impact = () => {
     TrendingUp,
   };
 
+  if (loading) {
+    return (
+      <section id="impact" className="py-20 bg-muted">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="section-heading">Our Impact</h2>
+            <p className="section-subheading">Loading impact data...</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+            {[1, 2, 3, 4].map((i) => (
+              <Card key={i}>
+                <CardContent className="p-6 text-center">
+                  <div className="w-16 h-16 bg-muted-foreground/10 animate-pulse rounded-2xl mx-auto mb-4" />
+                  <div className="h-10 w-20 bg-muted-foreground/10 animate-pulse rounded mx-auto mb-2" />
+                  <div className="h-5 w-32 bg-muted-foreground/10 animate-pulse rounded mx-auto mb-1" />
+                  <div className="h-4 w-24 bg-muted-foreground/10 animate-pulse rounded mx-auto" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          <h3 className="text-3xl font-bold text-primary text-center mb-10">Impact Stories</h3>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[1, 2, 3].map((i) => (
+              <Card key={i} className="overflow-hidden">
+                <div className="h-56 bg-muted-foreground/10 animate-pulse" />
+                <CardContent className="p-6">
+                  <div className="h-6 w-3/4 bg-muted-foreground/10 animate-pulse rounded mb-3" />
+                  <div className="space-y-2">
+                    <div className="h-4 w-full bg-muted-foreground/10 animate-pulse rounded" />
+                    <div className="h-4 w-2/3 bg-muted-foreground/10 animate-pulse rounded" />
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="impact" className="py-20 bg-muted">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
