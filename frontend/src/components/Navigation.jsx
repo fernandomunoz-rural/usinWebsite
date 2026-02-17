@@ -93,17 +93,11 @@ export const Navigation = () => {
                 {item.label}
               </button>
             ))}
-            <Button
-              onClick={() => scrollToSection('#get-involved')}
-              className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground mt-4"
-            >
-              Donate Now
-            </Button>
             
             {/* Mobile Sign In Button */}
             <Button
               onClick={() => window.location.href = '/admin/login'}
-              className="w-full border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 mt-2"
+              className="w-full border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 mt-4"
               variant="outline"
             >
               <LogIn size={16} className="mr-2" />
