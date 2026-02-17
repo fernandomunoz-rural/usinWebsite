@@ -52,10 +52,18 @@ export const Events = () => {
               className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden"
             >
               {/* Event Image */}
-              <div className="relative h-48 overflow-hidden bg-gradient-to-br from-secondary/20 to-accent/20">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <CalendarIcon className="text-primary/20" size={80} />
-                </div>
+              <div className="relative h-48 overflow-hidden">
+                {event.image ? (
+                  <img 
+                    src={event.image} 
+                    alt={event.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 to-accent/20 flex items-center justify-center">
+                    <CalendarIcon className="text-primary/20" size={80} />
+                  </div>
+                )}
                 <div className="absolute top-4 right-4">
                   <Badge className="bg-accent text-accent-foreground">
                     {new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
