@@ -6,15 +6,22 @@ import { getStats, getImpactStories } from '../utils/cmsStorage';
 export const Impact = () => {
   const [stats, setStats] = useState([]);
   const [impactStories, setImpactStories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadData = async () => {
-      const [loadedStats, loadedStories] = await Promise.all([
-        getStats(),
-        getImpactStories()
-      ]);
-      setStats(loadedStats);
-      setImpactStories(loadedStories.filter(s => s.active));
+      try {
+        const [loadedStats, loadedStories] = await Promise.all([
+          getStats(),
+          getImpactStories()
+        ]);
+        setStats(loadedStats);
+        setImpactStories(loadedStories.filter(s => s.active));
+      } catch (error) {
+        console.error('Failed to load impact data:', error);
+      } finally {
+        setLoading(false);
+      }
     };
     loadData();
   }, []);
