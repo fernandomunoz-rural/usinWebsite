@@ -162,6 +162,30 @@ export const EventsManager = () => {
                     />
                   </div>
 
+                  <div className="space-y-2">
+                    <Label className="flex items-center">
+                      <Image size={16} className="mr-2" />
+                      Event Image URL
+                    </Label>
+                    <Input
+                      type="url"
+                      value={formData.image}
+                      onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                      placeholder="https://example.com/image.jpg"
+                    />
+                    {formData.image && (
+                      <div className="mt-2">
+                        <p className="text-sm text-muted-foreground mb-2">Preview:</p>
+                        <img 
+                          src={formData.image} 
+                          alt="Event preview" 
+                          className="max-h-40 rounded-lg border object-cover"
+                          onError={(e) => { e.target.style.display = 'none'; }}
+                        />
+                      </div>
+                    )}
+                  </div>
+
                   <div className="flex space-x-2">
                     {editingId ? (
                       <Button onClick={() => handleUpdate(editingId)} className="bg-accent hover:bg-accent/90">
