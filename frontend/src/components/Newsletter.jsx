@@ -55,9 +55,16 @@ export const Newsletter = () => {
                 <Button
                   type="submit"
                   className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+                  disabled={isSubmitting}
                 >
-                  Subscribe
-                  <Send className="ml-2" size={16} />
+                  {isSubmitting ? (
+                    <Loader2 className="animate-spin" size={16} />
+                  ) : (
+                    <>
+                      Subscribe
+                      <Send className="ml-2" size={16} />
+                    </>
+                  )}
                 </Button>
               </div>
               <p className="text-xs text-muted-foreground text-center mt-3">
