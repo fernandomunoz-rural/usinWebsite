@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Checkbox } from './ui/checkbox';
 import { toast } from 'sonner';
 import { UserPlus, Building2 } from 'lucide-react';
+import { submitForm } from '../utils/cmsStorage';
 
 export const GetInvolved = () => {
   const [activeTab, setActiveTab] = useState('volunteer');
@@ -43,63 +44,43 @@ export const GetInvolved = () => {
 
   const availabilityOptions = ['Weekdays', 'Weekends', 'Evenings', 'Flexible'];
 
-  const handleVolunteerSubmit = (e) => {
+  const handleVolunteerSubmit = async (e) => {
     e.preventDefault();
     
-    // Send email notification
-    const emailBody = `
-New Volunteer Registration:
-Name: ${volunteerForm.name}
-Email: ${volunteerForm.email}
-Phone: ${volunteerForm.phone}
-University: ${volunteerForm.university}
-Area of Interest: ${volunteerForm.areaOfInterest}
-Availability: ${volunteerForm.availability.join(', ')}
-Message: ${volunteerForm.message}
-    `;
-    
-    // In production, this would call an API endpoint to send email
-    console.log('Sending to: utahintercollegiateservicenetw@gmail.com');
-    console.log(emailBody);
-    
-    toast.success('Thank you for signing up! We\'ll contact you soon with more information.');
-    setVolunteerForm({
-      name: '',
-      email: '',
-      phone: '',
-      university: '',
-      areaOfInterest: '',
-      availability: [],
-      message: '',
-    });
+    try {
+      await submitForm('volunteer', volunteerForm);
+      toast.success('Thank you for signing up! We\'ll contact you soon with more information.');
+      setVolunteerForm({
+        name: '',
+        email: '',
+        phone: '',
+        university: '',
+        areaOfInterest: '',
+        availability: [],
+        message: '',
+      });
+    } catch (error) {
+      toast.error('Failed to submit. Please try again.');
+    }
   };
 
-  const handlePartnerSubmit = (e) => {
+  const handlePartnerSubmit = async (e) => {
     e.preventDefault();
     
-    // Send email notification
-    const emailBody = `
-New Partnership Request:
-Organization: ${partnerForm.organizationName}
-Contact: ${partnerForm.contactName}
-Email: ${partnerForm.email}
-Phone: ${partnerForm.phone}
-Type: ${partnerForm.organizationType}
-Message: ${partnerForm.message}
-    `;
-    
-    console.log('Sending to: utahintercollegiateservicenetw@gmail.com');
-    console.log(emailBody);
-    
-    toast.success('Thank you for your interest! Our partnerships team will reach out shortly.');
-    setPartnerForm({
-      organizationName: '',
-      contactName: '',
-      email: '',
-      phone: '',
-      organizationType: '',
-      message: '',
-    });
+    try {
+      await submitForm('partner', partnerForm);
+      toast.success('Thank you for your interest! Our partnerships team will reach out shortly.');
+      setPartnerForm({
+        organizationName: '',
+        contactName: '',
+        email: '',
+        phone: '',
+        organizationType: '',
+        message: '',
+      });
+    } catch (error) {
+      toast.error('Failed to submit. Please try again.');
+    }
   };
 
   const tabs = [
