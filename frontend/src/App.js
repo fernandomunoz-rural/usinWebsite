@@ -20,6 +20,7 @@ import Events from './components/Events';
 // Admin Pages
 import AdminLogin from './pages/AdminLogin';
 import ProgramDetail from './pages/ProgramDetail';
+import EventDetail from './pages/EventDetail';
 
 import './App.css';
 
@@ -77,6 +78,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/program/:slug" element={<ProgramDetail />} />
+        <Route path="/event/:id" element={<EventDetail />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
