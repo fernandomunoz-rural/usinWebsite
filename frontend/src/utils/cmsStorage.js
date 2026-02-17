@@ -3,6 +3,11 @@
 
 const API_BASE = process.env.REACT_APP_BACKEND_URL;
 
+// Cache for combined data to avoid multiple API calls
+let cachedData = null;
+let cacheTimestamp = null;
+const CACHE_DURATION = 30000; // 30 seconds cache
+
 // Default data for fallback when API is unavailable
 const DEFAULT_DATA = {
   programs: [
