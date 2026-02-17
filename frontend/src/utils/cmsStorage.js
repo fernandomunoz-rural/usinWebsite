@@ -189,9 +189,47 @@ export const initializeStorage = async () => {
   }
 };
 
+// Fetch all CMS data in a single request for faster loading
+export const getAllCMSData = async () => {
+  const now = Date.now();
+  
+  // Return cached data if still valid
+  if (cachedData && cacheTimestamp && (now - cacheTimestamp) < CACHE_DURATION) {
+    return cachedData;
+  }
+  
+  try {
+    const data = await apiCall('/cms/all');
+    cachedData = data;
+    cacheTimestamp = now;
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch all CMS data:', error);
+    return {
+      programs: DEFAULT_DATA.programs,
+      events: DEFAULT_DATA.events,
+      stats: DEFAULT_DATA.stats,
+      impactStories: DEFAULT_DATA.impactStories,
+      about: DEFAULT_DATA.aboutContent,
+      announcements: DEFAULT_DATA.announcements,
+      opportunities: DEFAULT_DATA.opportunities,
+    };
+  }
+};
+
+// Clear cache (call this after any CMS update)
+export const clearCache = () => {
+  cachedData = null;
+  cacheTimestamp = null;
+};
+
 // Programs
 export const getPrograms = async () => {
   try {
+    // Try to use cached data first
+    if (cachedData && cacheTimestamp && (Date.now() - cacheTimestamp) < CACHE_DURATION) {
+      return cachedData.programs;
+    }
     return await apiCall('/cms/programs');
   } catch (error) {
     return DEFAULT_DATA.programs;
