@@ -178,31 +178,43 @@ export const EventDetail = () => {
                   </CardContent>
                 </Card>
 
-                {/* Activities */}
-                <Card className="shadow-xl">
-                  <CardContent className="p-8">
-                    <h2 className="text-2xl font-bold text-primary mb-6">Week of Service Activities</h2>
-                    <div className="space-y-4">
-                      {activities.map((activity, index) => {
-                        const Icon = activity.icon;
-                        return (
-                          <div 
-                            key={index} 
-                            className="flex items-start space-x-4 p-4 rounded-xl bg-muted/50 hover:bg-muted transition-colors"
-                          >
-                            <div className={`p-3 rounded-xl ${index % 2 === 0 ? 'bg-secondary/10' : 'bg-accent/10'}`}>
-                              <Icon className={index % 2 === 0 ? 'text-secondary' : 'text-accent'} size={24} />
+                {/* Activities - Only show if highlights found */}
+                {highlights.length > 0 && (
+                  <Card className="shadow-xl">
+                    <CardContent className="p-8">
+                      <h2 className="text-2xl font-bold text-primary mb-6">What to Expect</h2>
+                      <div className="space-y-4">
+                        {highlights.map((activity, index) => {
+                          const Icon = activity.icon;
+                          return (
+                            <div 
+                              key={index} 
+                              className="flex items-start space-x-4 p-4 rounded-xl bg-muted/50 hover:bg-muted transition-colors"
+                            >
+                              <div className={`p-3 rounded-xl ${index % 2 === 0 ? 'bg-secondary/10' : 'bg-accent/10'}`}>
+                                <Icon className={index % 2 === 0 ? 'text-secondary' : 'text-accent'} size={24} />
+                              </div>
+                              <div>
+                                <h3 className="font-semibold text-lg text-foreground">{activity.title}</h3>
+                                <p className="text-muted-foreground">{activity.description}</p>
+                              </div>
                             </div>
-                            <div>
-                              <h3 className="font-semibold text-lg text-foreground">{activity.title}</h3>
-                              <p className="text-muted-foreground">{activity.description}</p>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </CardContent>
-                </Card>
+                          );
+                        })}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* About This Event */}
+                {event.description && (
+                  <Card className="shadow-xl">
+                    <CardContent className="p-8">
+                      <h2 className="text-2xl font-bold text-primary mb-4">About This Event</h2>
+                      <p className="text-muted-foreground leading-relaxed text-lg">{event.description}</p>
+                    </CardContent>
+                  </Card>
+                )}
               </div>
 
               {/* Sidebar */}
