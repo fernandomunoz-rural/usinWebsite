@@ -4,7 +4,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { toast } from 'sonner';
-import { Lock, User } from 'lucide-react';
+import { Lock, User, Shield } from 'lucide-react';
 
 export const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -33,11 +33,9 @@ export const AdminLogin = () => {
       <Card className="w-full max-w-md shadow-2xl">
         <CardHeader className="text-center space-y-4">
           <div className="mx-auto">
-            <img 
-              src="https://customer-assets.emergentagent.com/job_a8cb0463-4a45-46b3-a08a-68f031555cae/artifacts/6ww6zppn_image.png"
-              alt="UISN Logo"
-              className="h-20 w-auto mx-auto mb-4"
-            />
+            <div className="w-20 h-20 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Shield className="w-10 h-10 text-secondary" />
+            </div>
           </div>
           <CardTitle className="text-3xl font-bold text-primary">UISN Council Login</CardTitle>
           <p className="text-muted-foreground">Access the Content Management System</p>

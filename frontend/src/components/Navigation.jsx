@@ -41,14 +41,10 @@ export const Navigation = () => {
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <img 
-              src="https://customer-assets.emergentagent.com/job_a8cb0463-4a45-46b3-a08a-68f031555cae/artifacts/6ww6zppn_image.png"
+              src="https://customer-assets.emergentagent.com/job_4f5d1fb5-0761-445e-af74-1ba7e066fe01/artifacts/pqnhsmwe_image.png"
               alt="UISN Logo"
-              className="h-12 w-auto"
+              className="h-14 w-auto"
             />
-            <div className="hidden sm:block text-primary-foreground text-sm font-medium">
-              <div>Utah Intercollegiate</div>
-              <div className="text-accent text-xs">Service Network</div>
-            </div>
           </div>
 
           {/* Desktop Navigation */}
