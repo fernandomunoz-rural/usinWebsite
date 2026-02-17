@@ -432,6 +432,9 @@ export const updateStat = async (id, updates) => {
 // Impact Stories
 export const getImpactStories = async () => {
   try {
+    if (cachedData && cacheTimestamp && (Date.now() - cacheTimestamp) < CACHE_DURATION) {
+      return cachedData.impactStories;
+    }
     return await apiCall('/cms/impact-stories');
   } catch (error) {
     return DEFAULT_DATA.impactStories;
