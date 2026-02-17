@@ -1,30 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Calendar as CalendarIcon, MapPin, Clock, ExternalLink } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
-import { getEvents } from '../utils/cmsStorage';
+import { useCMS } from '../context/CMSContext';
 
 export const Events = () => {
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadEvents = async () => {
-      try {
-        const loadedEvents = await getEvents();
-        const activeEvents = loadedEvents.filter(e => e.active);
-        // Sort by date
-        const sortedEvents = activeEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
-        setEvents(sortedEvents);
-      } catch (error) {
-        console.error('Failed to load events:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadEvents();
-  }, []);
+  const { events: allEvents, loading } = useCMS();
+  
+  // Filter active events and sort by date
+  const events = allEvents
+    .filter(e => e.active)
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
