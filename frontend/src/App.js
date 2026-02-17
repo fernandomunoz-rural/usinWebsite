@@ -68,6 +68,7 @@ function LandingPage() {
 
 export default function App() {
   useEffect(() => {
+    // Initialize storage on app load (async)
     initializeStorage();
   }, []);
 
