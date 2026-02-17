@@ -7,12 +7,19 @@ import { getPrograms } from '../utils/cmsStorage';
 
 export const Programs = () => {
   const [programs, setPrograms] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Load programs from CMS storage
     const loadPrograms = async () => {
-      const loadedPrograms = await getPrograms();
-      setPrograms(loadedPrograms.filter(p => p.active));
+      try {
+        const loadedPrograms = await getPrograms();
+        setPrograms(loadedPrograms.filter(p => p.active));
+      } catch (error) {
+        console.error('Failed to load programs:', error);
+      } finally {
+        setLoading(false);
+      }
     };
     loadPrograms();
   }, []);
