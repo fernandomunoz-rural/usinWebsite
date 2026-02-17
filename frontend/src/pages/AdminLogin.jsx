@@ -24,7 +24,7 @@ export const AdminLogin = () => {
         window.location.href = '/';
       }, 1000);
     } else {
-      toast.error('Invalid credentials. Try admin / uisn2026');
+      toast.error('Invalid credentials');
     }
   };
 
@@ -87,14 +87,6 @@ export const AdminLogin = () => {
             <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90" size="lg">
               Login to Dashboard
             </Button>
-
-            <div className="bg-muted rounded-lg p-4 text-sm">
-              <p className="font-semibold text-foreground mb-1">Demo Credentials:</p>
-              <p className="text-muted-foreground">
-                <strong>Username:</strong> admin<br />
-                <strong>Password:</strong> uisn2026
-              </p>
-            </div>
 
             <div className="text-center">
               <button
