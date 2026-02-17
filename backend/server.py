@@ -288,6 +288,32 @@ async def update_settings(settings: Settings):
     await db.settings.replace_one({}, settings.model_dump(), upsert=True)
     return {"success": True}
 
+# Combined endpoint - fetch all CMS data in one request for faster loading
+@api_router.get("/cms/all")
+async def get_all_cms_data():
+    """Fetch all CMS content in a single request for faster page load"""
+    import asyncio
+    
+    programs, events, stats, impact_stories, about, announcements, opportunities = await asyncio.gather(
+        db.programs.find({}, {"_id": 0}).to_list(100),
+        db.events.find({}, {"_id": 0}).to_list(100),
+        db.stats.find({}, {"_id": 0}).to_list(100),
+        db.impact_stories.find({}, {"_id": 0}).to_list(100),
+        db.about.find_one({}, {"_id": 0}),
+        db.announcements.find({}, {"_id": 0}).to_list(100),
+        db.opportunities.find({}, {"_id": 0}).to_list(100),
+    )
+    
+    return {
+        "programs": programs,
+        "events": events,
+        "stats": stats,
+        "impactStories": impact_stories,
+        "about": about or {"mission": "", "story": ""},
+        "announcements": announcements,
+        "opportunities": opportunities,
+    }
+
 # Initialize CMS data
 @api_router.post("/cms/initialize")
 async def initialize_cms():
