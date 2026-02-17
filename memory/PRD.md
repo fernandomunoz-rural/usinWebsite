@@ -20,7 +20,7 @@ Create a multi-section landing page with:
 
 ## Core Features
 
-### Implemented (P0 - Complete)
+### Implemented (Complete)
 - [x] Full landing page with all sections
 - [x] Custom design system with UISN brand colors
 - [x] FastAPI backend with MongoDB integration
@@ -30,14 +30,17 @@ Create a multi-section landing page with:
 - [x] Admin authentication system
 - [x] Admin panel with content managers for all sections
 - [x] Custom program pages with unique application forms
+- [x] Dynamic event detail pages (/event/:id)
+- [x] UISN logo in hero section
+- [x] SnowServes event with building image
 
 ### Pending (P1)
 - [ ] Email notifications for form submissions (requires Gmail App Password)
-- [ ] Deployment guide testing
+- [ ] Deployment to Vercel + Railway
 
 ### Future (P2)
-- [ ] Deploy to Vercel + Railway
 - [ ] Custom domain configuration
+- [ ] Form submissions dashboard in admin panel
 
 ## API Endpoints
 | Endpoint | Method | Description |
@@ -70,11 +73,13 @@ Create a multi-section landing page with:
 - `/app/frontend/src/App.js` - Main React app
 - `/app/frontend/src/components/admin/*` - Admin panel components
 - `/app/frontend/src/pages/ProgramDetail.jsx` - Program application forms
+- `/app/frontend/src/pages/EventDetail.jsx` - Dynamic event detail page
 
-## Testing
-- Backend: 100% pass rate (20/20 tests)
+## Testing Status
+- Backend: 100% pass rate (36/36 tests)
 - Frontend: All sections display correctly with API data
+- Admin Panel: All CRUD operations working
 - Forms: All submissions persist to database
 
 ## Last Updated
-December 2025 - Backend migration complete, all tests passing
+December 2025 - Backend migration complete, all tests passing, event detail page dynamic
