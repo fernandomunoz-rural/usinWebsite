@@ -302,6 +302,20 @@ async def initialize_cms():
     }
     await db.about.insert_one(default_about)
     
+    # Insert default impact stories
+    default_impact_stories = [
+        {"id": "1", "title": "Building Community Together", "description": "In our first year, UISN volunteers have contributed over 5,000 hours of service across Utah communities.", "image": "https://images.unsplash.com/photo-1758599667729-a6f0f8bd213b?w=800&q=80", "active": True},
+        {"id": "2", "title": "Growing Network", "description": "Started at Snow College, we've expanded to partner with 9 universities across Utah, creating a statewide movement.", "image": "https://images.unsplash.com/photo-1615856210162-9ae33390b1a2?w=800&q=80", "active": True},
+        {"id": "3", "title": "Student-Led Impact", "description": "Over 1,000 student volunteers are actively participating in service projects, proving that young people can create lasting change.", "image": "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=800&q=80", "active": True},
+    ]
+    await db.impact_stories.insert_many(default_impact_stories)
+    
+    # Insert default event
+    default_events = [
+        {"id": "1", "title": "Spring Kickoff Service Day", "date": "2026-03-15", "time": "9:00 AM - 3:00 PM", "location": "Salt Lake City", "description": "Join us for our inaugural service day! Multiple project sites available.", "registrationLink": "#", "active": True},
+    ]
+    await db.events.insert_many(default_events)
+    
     return {"message": "Database initialized successfully"}
 
 # ============ FORM SUBMISSIONS ============
