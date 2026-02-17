@@ -75,6 +75,10 @@ async def ping():
         logger.error(f"Ping failed: {e}")
         return {"status": "ok", "db": "connecting"}
 
+# Helper to get database - lazy initialization
+def db():
+    return get_db()
+
 # ============ MODELS ============
 
 class Program(BaseModel):
