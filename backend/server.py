@@ -23,16 +23,16 @@ logger = logging.getLogger(__name__)
 
 # MongoDB connection - optimized for cold starts
 mongo_url = os.environ['MONGO_URL']
-client = None
-db = None
+_client = None
+_db = None
 
 def get_db():
-    global client, db
-    if client is None:
+    global _client, _db
+    if _client is None:
         logger.info("Creating MongoDB connection...")
         if mongo_url.startswith('mongodb+srv'):
             import certifi
-            client = AsyncIOMotorClient(
+            _client = AsyncIOMotorClient(
                 mongo_url, 
                 tlsCAFile=certifi.where(),
                 maxPoolSize=5,
@@ -45,16 +45,16 @@ def get_db():
                 journal=False,  # Faster for non-critical data
             )
         else:
-            client = AsyncIOMotorClient(
+            _client = AsyncIOMotorClient(
                 mongo_url,
                 maxPoolSize=5,
                 minPoolSize=1,
                 serverSelectionTimeoutMS=5000,
                 connectTimeoutMS=5000
             )
-        db = client[os.environ['DB_NAME']]
+        _db = _client[os.environ['DB_NAME']]
         logger.info("MongoDB connection created")
-    return db
+    return _db
 
 app = FastAPI()
 api_router = APIRouter(prefix="/api")
