@@ -218,23 +218,34 @@ export const EventsManager = () => {
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <CalendarIcon size={20} className="text-accent" />
-                          <h3 className="text-xl font-bold text-primary">{event.title}</h3>
-                        </div>
-                        <p className="text-muted-foreground mb-3">{event.description}</p>
-                        <div className="flex flex-wrap gap-2 text-sm text-foreground">
-                          <span className="bg-muted px-2 py-1 rounded">
-                            <strong>Date:</strong> {new Date(event.date).toLocaleDateString()}
-                          </span>
-                          {event.time && (
-                            <span className="bg-muted px-2 py-1 rounded">
-                              <strong>Time:</strong> {event.time}
-                            </span>
+                        <div className="flex items-start space-x-4">
+                          {event.image && (
+                            <img 
+                              src={event.image} 
+                              alt={event.title}
+                              className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
+                            />
                           )}
-                          <span className="bg-muted px-2 py-1 rounded">
-                            <strong>Location:</strong> {event.location}
-                          </span>
+                          <div className="flex-1">
+                            <div className="flex items-center space-x-2 mb-2">
+                              <CalendarIcon size={20} className="text-accent" />
+                              <h3 className="text-xl font-bold text-primary">{event.title}</h3>
+                            </div>
+                            <p className="text-muted-foreground mb-3">{event.description}</p>
+                            <div className="flex flex-wrap gap-2 text-sm text-foreground">
+                              <span className="bg-muted px-2 py-1 rounded">
+                                <strong>Date:</strong> {new Date(event.date).toLocaleDateString()}
+                              </span>
+                              {event.time && (
+                                <span className="bg-muted px-2 py-1 rounded">
+                                  <strong>Time:</strong> {event.time}
+                                </span>
+                              )}
+                              <span className="bg-muted px-2 py-1 rounded">
+                                <strong>Location:</strong> {event.location}
+                              </span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div className="flex space-x-2 ml-4">
