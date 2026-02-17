@@ -28,35 +28,36 @@ export const ProgramsManager = () => {
     loadPrograms();
   }, []);
 
-  const loadPrograms = () => {
-    setPrograms(getPrograms());
+  const loadPrograms = async () => {
+    const data = await getPrograms();
+    setPrograms(data);
   };
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (!formData.title || !formData.description) {
       toast.error('Please fill in all required fields');
       return;
     }
-    addProgram(formData);
+    await addProgram(formData);
     toast.success('Program added successfully!');
     resetForm();
     loadPrograms();
   };
 
-  const handleUpdate = (id) => {
+  const handleUpdate = async (id) => {
     if (!formData.title || !formData.description) {
       toast.error('Please fill in all required fields');
       return;
     }
-    updateProgram(id, formData);
+    await updateProgram(id, formData);
     toast.success('Program updated successfully!');
     resetForm();
     loadPrograms();
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this program?')) {
-      deleteProgram(id);
+      await deleteProgram(id);
       toast.success('Program deleted successfully!');
       loadPrograms();
     }

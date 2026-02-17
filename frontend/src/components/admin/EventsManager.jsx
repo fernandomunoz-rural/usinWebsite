@@ -25,35 +25,36 @@ export const EventsManager = () => {
     loadEvents();
   }, []);
 
-  const loadEvents = () => {
-    setEvents(getEvents());
+  const loadEvents = async () => {
+    const data = await getEvents();
+    setEvents(data);
   };
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (!formData.title || !formData.date || !formData.location) {
       toast.error('Please fill in all required fields');
       return;
     }
-    addEvent(formData);
+    await addEvent(formData);
     toast.success('Event added successfully!');
     resetForm();
     loadEvents();
   };
 
-  const handleUpdate = (id) => {
+  const handleUpdate = async (id) => {
     if (!formData.title || !formData.date || !formData.location) {
       toast.error('Please fill in all required fields');
       return;
     }
-    updateEvent(id, formData);
+    await updateEvent(id, formData);
     toast.success('Event updated successfully!');
     resetForm();
     loadEvents();
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this event?')) {
-      deleteEvent(id);
+      await deleteEvent(id);
       toast.success('Event deleted successfully!');
       loadEvents();
     }

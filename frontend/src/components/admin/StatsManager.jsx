@@ -17,16 +17,17 @@ export const StatsManager = () => {
     loadStats();
   }, []);
 
-  const loadStats = () => {
-    setStats(getStats());
+  const loadStats = async () => {
+    const data = await getStats();
+    setStats(data);
   };
 
-  const handleUpdate = (id) => {
+  const handleUpdate = async (id) => {
     if (!formData.value || !formData.label) {
       toast.error('Please fill in all required fields');
       return;
     }
-    updateStat(id, formData);
+    await updateStat(id, formData);
     toast.success('Stat updated successfully!');
     setEditingId(null);
     loadStats();
