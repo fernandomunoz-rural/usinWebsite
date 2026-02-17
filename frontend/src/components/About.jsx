@@ -67,7 +67,11 @@ export const About = () => {
                 <div>
                   <h3 className="text-2xl font-bold text-primary mb-3">Our Mission</h3>
                   <p className="text-lg text-foreground/90 leading-relaxed">
-                    {aboutContent.mission || 'Loading...'}
+                    {loading ? (
+                      <span className="inline-block h-6 w-full bg-muted animate-pulse rounded" />
+                    ) : (
+                      aboutContent.mission || 'Mission statement loading...'
+                    )}
                   </p>
                 </div>
               </div>
