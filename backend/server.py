@@ -329,16 +329,16 @@ async def update_settings(settings: Settings):
 @api_router.get("/cms/all")
 async def get_all_cms_data():
     """Fetch all CMS content in a single request for faster page load"""
-    import asyncio
+    database = db()
     
     programs, events, stats, impact_stories, about, announcements, opportunities = await asyncio.gather(
-        db.programs.find({}, {"_id": 0}).to_list(100),
-        db.events.find({}, {"_id": 0}).to_list(100),
-        db.stats.find({}, {"_id": 0}).to_list(100),
-        db.impact_stories.find({}, {"_id": 0}).to_list(100),
-        db.about.find_one({}, {"_id": 0}),
-        db.announcements.find({}, {"_id": 0}).to_list(100),
-        db.opportunities.find({}, {"_id": 0}).to_list(100),
+        database.programs.find({}, {"_id": 0}).to_list(100),
+        database.events.find({}, {"_id": 0}).to_list(100),
+        database.stats.find({}, {"_id": 0}).to_list(100),
+        database.impact_stories.find({}, {"_id": 0}).to_list(100),
+        database.about.find_one({}, {"_id": 0}),
+        database.announcements.find({}, {"_id": 0}).to_list(100),
+        database.opportunities.find({}, {"_id": 0}).to_list(100),
     )
     
     return {
