@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Badge } from '../components/ui/badge';
 import { toast } from 'sonner';
 import { ArrowLeft, Calendar, MapPin, Send } from 'lucide-react';
-import { getPrograms } from '../utils/cmsStorage';
+import { getPrograms, submitForm } from '../utils/cmsStorage';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 
@@ -43,115 +43,62 @@ export const ProgramDetail = () => {
   });
 
   useEffect(() => {
-    const programs = getPrograms();
-    const foundProgram = programs.find(p => p.slug === slug || p.id === slug);
-    if (foundProgram) {
-      setProgram(foundProgram);
-    }
+    const loadProgram = async () => {
+      const programs = await getPrograms();
+      const foundProgram = programs.find(p => p.slug === slug || p.id === slug);
+      if (foundProgram) {
+        setProgram(foundProgram);
+      }
+    };
+    loadProgram();
   }, [slug]);
 
-  const handleChapterSubmit = (e) => {
+  const handleChapterSubmit = async (e) => {
     e.preventDefault();
-    const emailBody = `
-New Chapter Application
-
-Name: ${chapterForm.name}
-Email: ${chapterForm.email}
-Phone: ${chapterForm.phone}
-University: ${chapterForm.university}
-Why: ${chapterForm.reason}
-Experience: ${chapterForm.experience}
-    `;
-    console.log('Sending to: utahintercollegiateservicenetw@gmail.com');
-    console.log(emailBody);
-    toast.success('Chapter application submitted! We\'ll contact you soon.');
-    setChapterForm({ name: '', email: '', phone: '', university: '', reason: '', experience: '' });
+    try {
+      await submitForm('chapter', chapterForm);
+      toast.success('Chapter application submitted! We\'ll contact you soon.');
+      setChapterForm({ name: '', email: '', phone: '', university: '', reason: '', experience: '' });
+    } catch (error) {
+      toast.error('Failed to submit application. Please try again.');
+    }
   };
 
-  const handleEventSubmit = (e) => {
+  const handleEventSubmit = async (e) => {
     e.preventDefault();
-    const emailBody = `
-New Service Event - Official Support Request
-
-Organizer: ${eventForm.organizerName}
-Email: ${eventForm.email}
-Phone: ${eventForm.phone}
-University: ${eventForm.university}
-
-EVENT DETAILS:
-Title: ${eventForm.eventTitle}
-Date: ${eventForm.eventDate}
-Time: ${eventForm.eventTime}
-Location: ${eventForm.eventLocation}
-
-Description:
-${eventForm.eventDescription}
-
-Need Volunteers: ${eventForm.needVolunteers ? 'YES' : 'NO'}
-${eventForm.needVolunteers ? `Number Needed: ${eventForm.volunteersNeeded}` : ''}
-
-Additional Info:
-${eventForm.additionalInfo}
-    `;
-    console.log('Sending to: utahintercollegiateservicenetw@gmail.com');
-    console.log(emailBody);
-    toast.success('Event submitted for official support! We\'ll help promote it.');
-    setEventForm({
-      organizerName: '', email: '', phone: '', university: '',
-      eventTitle: '', eventDate: '', eventTime: '', eventLocation: '',
-      eventDescription: '', needVolunteers: false, volunteersNeeded: '', additionalInfo: '',
-    });
+    try {
+      await submitForm('event', eventForm);
+      toast.success('Event submitted for official support! We\'ll help promote it.');
+      setEventForm({
+        organizerName: '', email: '', phone: '', university: '',
+        eventTitle: '', eventDate: '', eventTime: '', eventLocation: '',
+        eventDescription: '', needVolunteers: false, volunteersNeeded: '', additionalInfo: '',
+      });
+    } catch (error) {
+      toast.error('Failed to submit event. Please try again.');
+    }
   };
 
-  const handleNetworkSubmit = (e) => {
+  const handleNetworkSubmit = async (e) => {
     e.preventDefault();
-    const emailBody = `
-New Network Member Application
-
-Name: ${networkForm.name}
-Email: ${networkForm.email}
-Phone: ${networkForm.phone}
-University: ${networkForm.university}
-Areas of Interest: ${networkForm.areasOfInterest.join(', ')}
-Availability: ${networkForm.availability.join(', ')}
-
-Why Join:
-${networkForm.whyJoin}
-    `;
-    console.log('Sending to: utahintercollegiateservicenetw@gmail.com');
-    console.log(emailBody);
-    toast.success('Welcome to UISN! We\'ll send you onboarding information.');
-    setNetworkForm({ name: '', email: '', phone: '', university: '', areasOfInterest: [], availability: [], whyJoin: '' });
+    try {
+      await submitForm('network', networkForm);
+      toast.success('Welcome to UISN! We\'ll send you onboarding information.');
+      setNetworkForm({ name: '', email: '', phone: '', university: '', areasOfInterest: [], availability: [], whyJoin: '' });
+    } catch (error) {
+      toast.error('Failed to submit application. Please try again.');
+    }
   };
 
-  const handleLeadershipSubmit = (e) => {
+  const handleLeadershipSubmit = async (e) => {
     e.preventDefault();
-    const emailBody = `
-New Leadership Team Application
-
-Name: ${leadershipForm.name}
-Email: ${leadershipForm.email}
-Phone: ${leadershipForm.phone}
-University: ${leadershipForm.university}
-
-Leadership Experience:
-${leadershipForm.leadershipExperience}
-
-Desired Role: ${leadershipForm.desiredRole}
-Commitment Level: ${leadershipForm.commitment}
-
-Skills:
-${leadershipForm.skills}
-
-Vision for UISN:
-${leadershipForm.vision}
-
-References: ${leadershipForm.references}
-    `;
-    console.log('Sending to: utahintercollegiateservicenetw@gmail.com');
-    console.log(emailBody);
-    toast.success('Leadership application submitted! We\'ll review and contact you.');
-    setLeadershipForm({ name: '', email: '', phone: '', university: '', leadershipExperience: '', desiredRole: '', commitment: '', skills: '', vision: '', references: '' });
+    try {
+      await submitForm('leadership', leadershipForm);
+      toast.success('Leadership application submitted! We\'ll review and contact you.');
+      setLeadershipForm({ name: '', email: '', phone: '', university: '', leadershipExperience: '', desiredRole: '', commitment: '', skills: '', vision: '', references: '' });
+    } catch (error) {
+      toast.error('Failed to submit application. Please try again.');
+    }
   };
 
   const areasOfInterest = [
