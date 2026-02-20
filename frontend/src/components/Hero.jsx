@@ -65,15 +65,15 @@ export const Hero = () => {
             {/* Stats */}
             <div className="flex flex-wrap gap-8 pt-8 border-t border-primary-foreground/20">
               <div>
-                <div className="text-4xl font-bold text-accent">9+</div>
+                <div className="text-4xl font-bold text-accent">6+</div>
                 <div className="text-primary-foreground/80 text-sm">Partner Universities</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-accent">1,000+</div>
+                <div className="text-4xl font-bold text-accent">100+</div>
                 <div className="text-primary-foreground/80 text-sm">Active Volunteers</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-accent">5,000+</div>
+                <div className="text-4xl font-bold text-accent">500+</div>
                 <div className="text-primary-foreground/80 text-sm">Service Hours</div>
               </div>
             </div>
