@@ -69,8 +69,11 @@ export const Navigation = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <div className="flex items-center space-x-3">
+          {/* Logo - Click to go home */}
+          <div 
+            className="flex items-center space-x-3 cursor-pointer"
+            onClick={goToHome}
+          >
             <img 
               src="https://customer-assets.emergentagent.com/job_4f5d1fb5-0761-445e-af74-1ba7e066fe01/artifacts/pqnhsmwe_image.png"
               alt="UISN Logo"
