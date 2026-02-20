@@ -24,7 +24,7 @@ export const Footer = () => {
   };
 
   const socialLinks = [
-    { icon: Instagram, href: '#', label: 'Instagram' },
+    { icon: Instagram, href: 'https://www.instagram.com/_u.i.s.n_?igsh=MW1tNzg4cmQxc3hybw%3D%3D&utm_source=qr', label: 'Instagram' },
     { icon: Mail, href: 'mailto:utahintercollegiateservicenetw@gmail.com', label: 'Email' },
   ];
 
