@@ -29,6 +29,8 @@ export const About = () => {
     },
   ];
 
+  const defaultDescription = "The Utah Intercollegiate Service Network connects passionate students across Utah's universities to create positive change through coordinated volunteer efforts.";
+
   return (
     <section id="about" className="py-20 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -36,8 +38,11 @@ export const About = () => {
         <div className="text-center mb-16">
           <h2 className="section-heading">About UISN</h2>
           <p className="section-subheading">
-            The Utah Intercollegiate Service Network connects passionate students across Utah's universities
-            to create positive change through coordinated volunteer efforts.
+            {loading ? (
+              <span className="inline-block h-6 w-3/4 bg-muted animate-pulse rounded mx-auto" />
+            ) : (
+              aboutContent.description || defaultDescription
+            )}
           </p>
         </div>
 

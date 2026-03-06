@@ -9,6 +9,7 @@ import { getAboutContent, saveAboutContent } from '../../utils/cmsStorage';
 
 export const AboutContentManager = () => {
   const [formData, setFormData] = useState({
+    description: '',
     mission: '',
     story: '',
   });
@@ -16,14 +17,18 @@ export const AboutContentManager = () => {
   useEffect(() => {
     const loadContent = async () => {
       const content = await getAboutContent();
-      setFormData(content);
+      setFormData({
+        description: content.description || '',
+        mission: content.mission || '',
+        story: content.story || '',
+      });
     };
     loadContent();
   }, []);
 
   const handleSave = async () => {
     if (!formData.mission || !formData.story) {
-      toast.error('Please fill in all fields');
+      toast.error('Please fill in all required fields');
       return;
     }
     await saveAboutContent(formData);
@@ -39,18 +44,29 @@ export const AboutContentManager = () => {
         <CardContent>
           <div className="space-y-6">
             <div className="space-y-2">
-              <Label>Mission Statement</Label>
+              <Label>About UISN Description</Label>
+              <Textarea
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                placeholder="Brief description that appears below 'About UISN' heading"
+                rows={3}
+              />
+              <p className="text-sm text-muted-foreground">This appears below the "About UISN" heading</p>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Mission Statement *</Label>
               <Textarea
                 value={formData.mission}
                 onChange={(e) => setFormData({ ...formData, mission: e.target.value })}
                 placeholder="Enter the organization's mission"
                 rows={4}
               />
-              <p className="text-sm text-muted-foreground">This appears in the Mission section</p>
+              <p className="text-sm text-muted-foreground">This appears in the Mission card</p>
             </div>
 
             <div className="space-y-2">
-              <Label>Our Story</Label>
+              <Label>Our Story *</Label>
               <Textarea
                 value={formData.story}
                 onChange={(e) => setFormData({ ...formData, story: e.target.value })}
@@ -75,6 +91,10 @@ export const AboutContentManager = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
+            <div>
+              <h3 className="text-xl font-bold text-primary mb-2">About UISN Description</h3>
+              <p className="text-foreground/90">{formData.description || 'No description yet'}</p>
+            </div>
             <div>
               <h3 className="text-xl font-bold text-primary mb-2">Mission</h3>
               <p className="text-foreground/90">{formData.mission || 'No mission statement yet'}</p>
