@@ -478,12 +478,39 @@ Program Application: {form_type.title()}
             subject = f"Form Submission - {form_type}"
             body = str(data)
         
-        # Send email in background (non-blocking but reliable)
-        try:
-            await send_email(subject, body, 'utahintercollegiateservicenetw@gmail.com')
-        except Exception as email_error:
-            logger.error(f"Failed to send email notification: {email_error}")
-            # Don't fail the submission if email fails
+        # Send email in background thread (non-blocking but reliable)
+        import threading
+        def send_email_thread():
+            try:
+                import smtplib
+                from email.mime.text import MIMEText
+                from email.mime.multipart import MIMEMultipart
+                
+                from_email = os.environ.get('GMAIL_USER', 'utahintercollegiateservicenetw@gmail.com')
+                password = os.environ.get('GMAIL_APP_PASSWORD', '')
+                to_email = 'utahintercollegiateservicenetw@gmail.com'
+                
+                if not password:
+                    return
+                
+                msg = MIMEMultipart()
+                msg['From'] = from_email
+                msg['To'] = to_email
+                msg['Subject'] = subject
+                msg.attach(MIMEText(body, 'plain'))
+                
+                server = smtplib.SMTP('smtp.gmail.com', 587, timeout=10)
+                server.starttls()
+                server.login(from_email, password)
+                server.send_message(msg)
+                server.quit()
+                logger.info(f"Email sent successfully to {to_email}")
+            except Exception as e:
+                logger.error(f"Failed to send email: {e}")
+        
+        # Start email in background thread - doesn't block response
+        thread = threading.Thread(target=send_email_thread)
+        thread.start()
         
         return {"success": True, "message": "Form submitted successfully"}
     except Exception as e:
