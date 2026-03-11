@@ -478,8 +478,12 @@ Program Application: {form_type.title()}
             subject = f"Form Submission - {form_type}"
             body = str(data)
         
-        # Send email in background (non-blocking)
-        asyncio.create_task(send_email(subject, body, 'utahintercollegiateservicenetw@gmail.com'))
+        # Send email in background (non-blocking but reliable)
+        try:
+            await send_email(subject, body, 'utahintercollegiateservicenetw@gmail.com')
+        except Exception as email_error:
+            logger.error(f"Failed to send email notification: {email_error}")
+            # Don't fail the submission if email fails
         
         return {"success": True, "message": "Form submitted successfully"}
     except Exception as e:
