@@ -92,9 +92,11 @@ First, save your code to GitHub using the "Save to GitHub" button in the chat.
    ```
    MONGO_URL=mongodb+srv://uisn_admin:YOUR_PASSWORD@uisn-cluster.xxxxx.mongodb.net/uisn_db?retryWrites=true&w=majority
    DB_NAME=uisn_db
-   EMAIL_ADDRESS=utahintercollegiateservicenetw@gmail.com
-   EMAIL_PASSWORD=your_app_password_here
+   GMAIL_USER=utahintercollegiateservicenetw@gmail.com
+   GMAIL_APP_PASSWORD=your_app_password_here
+   NOTIFICATION_EMAIL=utahintercollegiateservicenetw@gmail.com
    ```
+   `EMAIL_ADDRESS` and `EMAIL_PASSWORD` are also supported for backward compatibility, but the backend now prefers the `GMAIL_*` names above.
 
 4. **Generate Domain**
    - Go to Settings → Networking

@@ -153,12 +153,38 @@ class FormSubmission(BaseModel):
 
 # ============ EMAIL FUNCTION ============
 
+DEFAULT_NOTIFICATION_EMAIL = 'utahintercollegiateservicenetw@gmail.com'
+
+
+def get_email_credentials():
+    """Support both the current Gmail vars and the older deployment-guide names."""
+    from_email = (
+        os.environ.get('GMAIL_USER')
+        or os.environ.get('EMAIL_ADDRESS')
+        or DEFAULT_NOTIFICATION_EMAIL
+    )
+    password = (
+        os.environ.get('GMAIL_APP_PASSWORD')
+        or os.environ.get('EMAIL_PASSWORD')
+        or ''
+    )
+    return from_email, password
+
+
+def get_notification_email(settings: Optional[Dict[str, Any]] = None):
+    return (
+        os.environ.get('NOTIFICATION_EMAIL')
+        or (settings or {}).get('emailNotifications')
+        or os.environ.get('GMAIL_USER')
+        or os.environ.get('EMAIL_ADDRESS')
+        or DEFAULT_NOTIFICATION_EMAIL
+    )
+
 async def send_email(subject: str, body: str, to_email: str = None):
     """Send email using Gmail SMTP"""
     try:
-        from_email = os.environ.get('GMAIL_USER', 'utahintercollegiateservicenetw@gmail.com')
-        password = os.environ.get('GMAIL_APP_PASSWORD', '')
-        to_email = to_email or from_email
+        from_email, password = get_email_credentials()
+        to_email = to_email or get_notification_email()
         
         if not password:
             logging.warning("No Gmail password configured. Email not sent.")
@@ -318,7 +344,7 @@ async def delete_opportunity(opportunity_id: str):
 async def get_settings():
     settings = await db().settings.find_one({}, {"_id": 0})
     if not settings:
-        return Settings(donateEnabled=False, emailNotifications="utahintercollegiateservicenetw@gmail.com")
+        return Settings(donateEnabled=False, emailNotifications=DEFAULT_NOTIFICATION_EMAIL)
     return settings
 
 @api_router.put("/cms/settings")
@@ -412,6 +438,7 @@ async def submit_form(submission: FormSubmission):
         doc = submission.model_dump()
         doc['submittedAt'] = doc['submittedAt'].isoformat()
         await db().form_submissions.insert_one(doc)
+        settings = await db().settings.find_one({}, {"_id": 0})
         
         # Prepare email (do not await - fire and forget)
         form_type = submission.formType
@@ -486,11 +513,11 @@ Program Application: {form_type.title()}
                 from email.mime.text import MIMEText
                 from email.mime.multipart import MIMEMultipart
                 
-                from_email = os.environ.get('GMAIL_USER', 'utahintercollegiateservicenetw@gmail.com')
-                password = os.environ.get('GMAIL_APP_PASSWORD', '')
-                to_email = 'utahintercollegiateservicenetw@gmail.com'
+                from_email, password = get_email_credentials()
+                to_email = get_notification_email(settings)
                 
                 if not password:
+                    logger.warning("Email not sent because no app password is configured.")
                     return
                 
                 msg = MIMEMultipart()
