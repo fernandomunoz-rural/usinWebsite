@@ -217,6 +217,7 @@ async def send_email(subject: str, body: str, to_email: str = None):
                 headers={
                     'Authorization': f'Bearer {api_key}',
                     'Content-Type': 'application/json',
+                    'User-Agent': 'uisn-website/1.0',
                 },
                 method='POST',
             )
