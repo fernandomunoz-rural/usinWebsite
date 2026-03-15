@@ -5,31 +5,31 @@ This guide will help you deploy your UISN landing page and set up email notifica
 
 ---
 
-## Part 1: Email Setup (Gmail App Password)
+## Part 1: Email Setup (Resend Recommended)
 
 ### Why You Need This
 When someone fills out a volunteer form, partnership request, or newsletter signup, you'll receive an email notification at `utahintercollegiateservicenetw@gmail.com`.
 
 ### Step-by-Step Instructions
 
-1. **Go to your Google Account Security Settings**
-   - Visit: https://myaccount.google.com/security
-   - Sign in with `utahintercollegiateservicenetw@gmail.com`
+1. **Create a Resend account**
+   - Visit: https://resend.com
+   - Sign up and open the dashboard
 
-2. **Enable 2-Step Verification** (if not already enabled)
-   - Click "2-Step Verification"
-   - Follow the prompts to set it up
+2. **Create an API key**
+   - In Resend, go to API Keys
+   - Create a new API key for this website
+   - Copy the value
 
-3. **Create an App Password**
-   - Go to: https://myaccount.google.com/apppasswords
-   - Select "Mail" as the app
-   - Select "Other" as the device and name it "UISN Website"
-   - Click "Generate"
-   - **Copy the 16-character password** (looks like: `xxxx xxxx xxxx xxxx`)
+3. **Choose a sender address**
+   - For quick testing, Resend provides `onboarding@resend.dev`
+   - For production, verify your own domain in Resend and use a sender from that domain
 
-4. **Give me the App Password**
-   - Share the generated password with me (without spaces)
-   - I'll configure the backend to send emails
+4. **Add the values to Railway**
+   - You'll use these as environment variables in the backend:
+     - `RESEND_API_KEY`
+     - `RESEND_FROM_EMAIL`
+     - `NOTIFICATION_EMAIL`
 
 ---
 
@@ -92,11 +92,12 @@ First, save your code to GitHub using the "Save to GitHub" button in the chat.
    ```
    MONGO_URL=mongodb+srv://uisn_admin:YOUR_PASSWORD@uisn-cluster.xxxxx.mongodb.net/uisn_db?retryWrites=true&w=majority
    DB_NAME=uisn_db
-   GMAIL_USER=utahintercollegiateservicenetw@gmail.com
-   GMAIL_APP_PASSWORD=your_app_password_here
+   RESEND_API_KEY=your_resend_api_key_here
+   RESEND_FROM_EMAIL=UISN <onboarding@resend.dev>
    NOTIFICATION_EMAIL=utahintercollegiateservicenetw@gmail.com
    ```
-   `EMAIL_ADDRESS` and `EMAIL_PASSWORD` are also supported for backward compatibility, but the backend now prefers the `GMAIL_*` names above.
+   If you later verify your own domain in Resend, replace `UISN <onboarding@resend.dev>` with your real sender address.
+   `GMAIL_USER` and `GMAIL_APP_PASSWORD` are still supported as a fallback, but they will not work on Railway Free because SMTP is blocked there.
 
 4. **Generate Domain**
    - Go to Settings → Networking

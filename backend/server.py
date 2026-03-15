@@ -10,9 +10,9 @@ from typing import List, Optional, Dict, Any
 import uuid
 from datetime import datetime, timezone
 import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 import asyncio
+import json
+from urllib import request, error
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -154,21 +154,33 @@ class FormSubmission(BaseModel):
 # ============ EMAIL FUNCTION ============
 
 DEFAULT_NOTIFICATION_EMAIL = 'utahintercollegiateservicenetw@gmail.com'
+DEFAULT_FROM_EMAIL = 'UISN <onboarding@resend.dev>'
 
 
-def get_email_credentials():
-    """Support both the current Gmail vars and the older deployment-guide names."""
-    from_email = (
+def get_email_provider():
+    return 'resend' if os.environ.get('RESEND_API_KEY') else 'gmail'
+
+
+def get_resend_api_key():
+    return os.environ.get('RESEND_API_KEY', '')
+
+
+def get_from_email():
+    if get_email_provider() == 'resend':
+        return os.environ.get('RESEND_FROM_EMAIL', DEFAULT_FROM_EMAIL)
+    return (
         os.environ.get('GMAIL_USER')
         or os.environ.get('EMAIL_ADDRESS')
         or DEFAULT_NOTIFICATION_EMAIL
     )
-    password = (
+
+
+def get_gmail_app_password():
+    return (
         os.environ.get('GMAIL_APP_PASSWORD')
         or os.environ.get('EMAIL_PASSWORD')
         or ''
     )
-    return from_email, password
 
 
 def get_notification_email(settings: Optional[Dict[str, Any]] = None):
@@ -181,29 +193,69 @@ def get_notification_email(settings: Optional[Dict[str, Any]] = None):
     )
 
 async def send_email(subject: str, body: str, to_email: str = None):
-    """Send email using Gmail SMTP"""
+    """Send email using Resend HTTPS API or Gmail SMTP as a fallback."""
     try:
-        from_email, password = get_email_credentials()
+        to_email = to_email or get_notification_email()
+        provider = get_email_provider()
+        from_email = get_from_email()
+
+        if provider == 'resend':
+            api_key = get_resend_api_key()
+            if not api_key:
+                logging.warning("No Resend API key configured. Email not sent.")
+                return False
+
+            payload = json.dumps({
+                "from": from_email,
+                "to": [to_email],
+                "subject": subject,
+                "text": body,
+            }).encode('utf-8')
+            req = request.Request(
+                'https://api.resend.com/emails',
+                data=payload,
+                headers={
+                    'Authorization': f'Bearer {api_key}',
+                    'Content-Type': 'application/json',
+                },
+                method='POST',
+            )
+            with request.urlopen(req, timeout=10) as response:
+                if 200 <= response.status < 300:
+                    logging.info(f"Email sent successfully to {to_email} via Resend")
+                    return True
+                logging.error(f"Resend email failed with status {response.status}")
+                return False
+
+        password = get_gmail_app_password()
         to_email = to_email or get_notification_email()
         
         if not password:
             logging.warning("No Gmail password configured. Email not sent.")
             return False
         
-        msg = MIMEMultipart()
-        msg['From'] = from_email
-        msg['To'] = to_email
-        msg['Subject'] = subject
-        msg.attach(MIMEText(body, 'plain'))
+        msg = (
+            f"From: {from_email}\r\n"
+            f"To: {to_email}\r\n"
+            f"Subject: {subject}\r\n"
+            "\r\n"
+            f"{body}"
+        )
         
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
         server.login(from_email, password)
-        server.send_message(msg)
+        server.sendmail(from_email, [to_email], msg)
         server.quit()
         
         logging.info(f"Email sent successfully to {to_email}")
         return True
+    except error.HTTPError as e:
+        logging.error(f"Resend email failed: {e.code} {e.read().decode('utf-8', errors='ignore')}")
+        return False
+    except error.URLError as e:
+        logging.error(f"Resend email connection failed: {str(e)}")
+        return False
     except Exception as e:
         logging.error(f"Failed to send email: {str(e)}")
         return False
@@ -509,29 +561,10 @@ Program Application: {form_type.title()}
         import threading
         def send_email_thread():
             try:
-                import smtplib
-                from email.mime.text import MIMEText
-                from email.mime.multipart import MIMEMultipart
-                
-                from_email, password = get_email_credentials()
                 to_email = get_notification_email(settings)
-                
-                if not password:
-                    logger.warning("Email not sent because no app password is configured.")
-                    return
-                
-                msg = MIMEMultipart()
-                msg['From'] = from_email
-                msg['To'] = to_email
-                msg['Subject'] = subject
-                msg.attach(MIMEText(body, 'plain'))
-                
-                server = smtplib.SMTP('smtp.gmail.com', 587, timeout=10)
-                server.starttls()
-                server.login(from_email, password)
-                server.send_message(msg)
-                server.quit()
-                logger.info(f"Email sent successfully to {to_email}")
+                success = asyncio.run(send_email(subject, body, to_email))
+                if not success:
+                    logger.error(f"Email delivery failed for {to_email}")
             except Exception as e:
                 logger.error(f"Failed to send email: {e}")
         
